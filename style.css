@@ -21,10 +21,9 @@ html, body {
 }
 
 .stat-item .stat-buffer-outer {
-    height: 20px;
+    height: 41px;
     width: 300px;
     border: solid 1px #555;
-    border-radius: 14px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 0 2px #333;
@@ -32,12 +31,16 @@ html, body {
 
 .stat-item .stat-buffer-outer .stat-percent {
     position: absolute;
+    width: 100%;
     top: 0;
     left: 0;
-    font-size: 1.3em;
-    padding-left: 1em ;
+    font-size: 1.6em;
+    padding: .35em;
     z-index: 1;
+    text-align: center;
 }
+.stat-item .stat-buffer-outer,
+.stat-item .stat-buffer-outer .stat-buffer-inner { border-radius: 22px; }
 
 .stat-item .stat-buffer-outer .stat-buffer-inner {
     position: absolute;
@@ -45,7 +48,6 @@ html, body {
     left: 0;
     height: 100%;
     width: 30%;
-    border-radius: 8px;
     background-color: #77dd77;
 }
 

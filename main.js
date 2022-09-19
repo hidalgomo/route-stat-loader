@@ -17,7 +17,6 @@ const Engine = (() => {
         SI: 'Staten Island'
     };
 
-    // sample
     const routeNameMapping = {
         BQ_99_RH_H101: 'BELT PARKWAY',
         MB_99_RH_H101: 'BRONX RIVER PARKWAY',
@@ -67,7 +66,7 @@ const Engine = (() => {
             this.shortName = boroughShortName;
             this.fullName = boroughNameMapping[boroughShortName];
             this.routes = [];
-        }
+        }   
 
         // NotImplemented!!
         // The AddRoute method only adds routeInfo to the routes array
