@@ -95,23 +95,25 @@ const Engine = (() => {
     const container = document.querySelector('.stat-container');
     let routesAddedToDOM = [];
 
-
     function routeElemCreator(route) {
         const statItem = document.createElement('div');
         const statLabel = document.createElement('div');
         const statBufferOuter = document.createElement('div');
         const statPercent = document.createElement('div');
+        // const statHighlight = document.createElement('div');
         const statBufferInner = document.createElement('div');
 
         statItem.classList.add('stat-item');
         statLabel.classList.add('stat-label');
         statBufferOuter.classList.add('stat-buffer-outer');
         statPercent.classList.add('stat-percent');
+        // statHighlight.classList.add('stat-buffer-highlight');
         statBufferInner.classList.add('stat-buffer-inner');
 
         statItem.appendChild(statLabel);
         statItem.appendChild(statBufferOuter);
         statBufferOuter.appendChild(statPercent);
+        // statBufferOuter.appendChild(statHighlight);
         statBufferOuter.appendChild(statBufferInner);
         
         const percent = route.percentCompCombined * 100;
@@ -209,6 +211,5 @@ const KeyStart = () => {
         modalBg.classList.add('display-none');
     }
 };
-
 
 KeyStart();
