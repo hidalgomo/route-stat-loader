@@ -1,14 +1,3 @@
-const Validator = (() => {
-    return {
-        isHeaderValid: function(header) {
-            return header.length === 9;
-        },
-        isFileValid: function(data) {
-            return this.isHeaderValid( data[0] );
-        }
-    };
-})();
-
 const Engine = (() => {
 
     const boroughNameMapping = {
@@ -100,20 +89,17 @@ const Engine = (() => {
         const statLabel = document.createElement('div');
         const statBufferOuter = document.createElement('div');
         const statPercent = document.createElement('div');
-        // const statHighlight = document.createElement('div');
         const statBufferInner = document.createElement('div');
 
         statItem.classList.add('stat-item');
         statLabel.classList.add('stat-label');
         statBufferOuter.classList.add('stat-buffer-outer');
         statPercent.classList.add('stat-percent');
-        // statHighlight.classList.add('stat-buffer-highlight');
         statBufferInner.classList.add('stat-buffer-inner');
 
         statItem.appendChild(statLabel);
         statItem.appendChild(statBufferOuter);
         statBufferOuter.appendChild(statPercent);
-        // statBufferOuter.appendChild(statHighlight);
         statBufferOuter.appendChild(statBufferInner);
         
         const percent = route.percentCompCombined * 100;
@@ -133,9 +119,7 @@ const Engine = (() => {
     }
 
     function addRouteToRouteContainer(routeElem, routeIndex) {
-        setTimeout(() => {
-            container.appendChild(routeElem);
-        }, routeIndex * 5);
+        container.appendChild(routeElem);
     }
 
     return {
@@ -165,15 +149,22 @@ const Engine = (() => {
             }
         },
         addToDOM: () => {
-
             for(let borough of boroughList.boroughs) {
+                const boroughElem = document.createElement('div');
+                const boroughHeadingElem = document.createElement('h2');
+                boroughHeadingElem.textContent = borough.fullName;
+
+                boroughElem.appendChild( boroughHeadingElem );
+
                 for(let i = 0; i < borough.routes.length; i++) {
                     if (routesAddedToDOM.indexOf( borough.routes[i].shortName ) === -1) {
                         const routeElem =  routeElemCreator( borough.routes[i] );
-                        addRouteToRouteContainer(routeElem, i);
+                        boroughElem.appendChild(routeElem);
                         routesAddedToDOM.push( borough.routes[i].shortName );
                     }
                 }
+
+                addRouteToRouteContainer( boroughElem );
             }
         }
     }

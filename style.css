@@ -12,13 +12,17 @@ html, body {
     background: url(./DSNY_logo_2016.jpg) no-repeat center center;
     opacity: .1;
     z-index: -1;
+    background-size: contain;
 }
 
-#fileInput { visibility: hidden; }
+.stat-container > div {
+    display: inline-block;
+    vertical-align: top;
+}
 
-.stat-container {
-    display: grid;
-    grid-template-columns: minmax(0, auto) minmax(0, auto) minmax(0, auto) minmax(0, auto);
+.stat-container > div > h2 {
+    padding: 0;
+    margin: 0;
 }
 
 .stat-item {
