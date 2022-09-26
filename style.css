@@ -88,9 +88,18 @@ div.borough div.borough-label {
 div.borough div.borough-label > div,
 div.borough div.route-container { padding: .6rem 1rem; }
 
-div.route { display: inline-block; width: 46%; white-space: nowrap; min-height: 3rem; margin-right: 5px; margin: 1.2rem 0; }
-div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; }
+div.route {
+    position: relative;
+    display: inline-block; 
+    width: 46%;
+    white-space: nowrap;
+    min-height: 3rem;
+    margin-right: 5px;
+    margin: 1.2rem 0;
+    cursor: pointer;
+}
 
+div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; }
 div.route div.outer-progress-bar,
 div.route div.outer-progress-bar .inner-progress-bar { border-radius: 20px; }
 
@@ -104,7 +113,14 @@ div.route div.outer-progress-bar {
 
 div.route div.outer-progress-bar .inner-progress-bar,
 div.route div.outer-progress-bar .progress-percent { position: absolute; top:0; left: 0; width: 100%; }
-
 div.route div.outer-progress-bar .inner-progress-bar { height: 100%; width: 0; transition: ease-in-out .8s; }
 
-div.route div.outer-progress-bar .progress-percent { text-align: center; font-size: 1.4rem; padding: .7rem 0; } 
+div.route div.outer-progress-bar .progress-percent {
+    text-align: center;
+    font-size: 1.4rem;
+    padding: .7rem 0;
+    transition: ease-in-out .1s;
+}
+
+div.route:hover div.outer-progress-bar .progress-percent { font-size: 2rem;  }
+
