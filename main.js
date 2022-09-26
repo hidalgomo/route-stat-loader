@@ -70,7 +70,7 @@ class RouteTemplate {
             <div class="route">
                 <div class="route-label">${ route.fullName.toLowerCase() }</div>
                 <div class="outer-progress-bar">
-                    <div class="inner-prograss-bar ${ this.#evalClass( route ) }" style="width: ${ (route.percentCompCombined * 100).toFixed(1) }%;"></div>
+                    <div class="inner-progress-bar ${ this.#evalClass( route ) }"></div>
                     <div class="progress-percent">${ (route.percentCompCombined * 100).toFixed(1) }%</div>
                 </div>
             </div>`;
@@ -172,6 +172,14 @@ class Renderer {
             this.#rootElem.appendChild( x.template().Create(x) );
         });
     }
+
+    FillProgress() {
+        setTimeout(() => {
+            for(let node of document.getElementsByClassName('outer-progress-bar')) {
+                node.children[0].style.width = node.children[1].innerHTML;
+            }  
+        }, 100);
+    }
 }
 
 class Engine {
@@ -236,6 +244,7 @@ engine.Start(data => {
 
     const renderer = new Renderer('.borough-container');
     renderer.Render( initialDataset );
+    renderer.FillProgress();
 
     engine.HideUploadBtn();
     engine.HideModalBg();

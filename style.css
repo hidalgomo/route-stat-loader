@@ -91,15 +91,13 @@ div.route { display: inline-block; width: 46%; white-space: nowrap; min-height: 
 div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; }
 
 div.route div.outer-progress-bar,
-div.route div.outer-progress-bar .inner-prograss-bar { border-radius: 20px; }
+div.route div.outer-progress-bar .inner-progress-bar { border-radius: 20px; }
 
 div.route div.outer-progress-bar { position: relative; min-height: inherit; overflow: hidden; border: solid 1px #aaa; }
 
-div.route div.outer-progress-bar .inner-prograss-bar,
+div.route div.outer-progress-bar .inner-progress-bar,
 div.route div.outer-progress-bar .progress-percent { position: absolute; top:0; left: 0; width: 100%; }
 
-div.route div.outer-progress-bar .inner-prograss-bar { height: 100%; }
+div.route div.outer-progress-bar .inner-progress-bar { height: 100%; width: 0; transition: ease-in-out .8s; }
 
 div.route div.outer-progress-bar .progress-percent { text-align: center; font-size: 1.4rem; padding: .7rem 0; } 
-
-
