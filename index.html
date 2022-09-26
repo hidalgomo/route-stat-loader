@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>Highway Status Dashboard</title>
         <link rel="stylesheet" type="text/css" href="./style.css">
     </head>
     <body>
-        <input class="display-none" type="file" name="dataFile" id="fileInput" accept=".csv">
-
-        <article class="container">
-            <section class="stat-container">
-            </section>
+        <section class="toolbar-container">
+            <div class="tool-list">
+                <div class="tool"></div>
+            </div>
+        </section>
+        <article class="container-fluid">
+            <section class="borough-container"></section>
         </article>
-
-        <div class="upload-file-btn">
-        </div>
-        <div class="modal-bg"></div>
         <div class="logo-bg"></div>
+        <div class="modal-bg"></div>
+        <div class="upload-file-btn"></div>
+        <input class="display-none" type="file" name="dataFile" id="fileInput" accept=".csv">
         <script type="text/javascript" src="./main.js"></script>
     </body>
 </html>

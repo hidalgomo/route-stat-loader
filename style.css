@@ -1,7 +1,27 @@
+@media only screen and (max-width: 600px) {
+    div.borough { width: 100% !important; }
+}
+
+@media only screen and (min-width: 600px) {
+    div.borough-label { background-color: #fff; }
+}
+
+@media only screen and (max-width: 1350px) {
+    div.route { width: 100% !important; }
+}
+
 html, body {
     font-family:Helvetica, Arial, sans-serif;
     font-size: 0.90em;
+    position: relative;
+    margin: 0;
+    padding: 0;
 }
+
+.display-none { display: none !important; }
+.red-bg { background-color: #ff7676 !important; }
+.yellow-bg { background-color: #fff476 !important; }
+.green-bg { background-color: #00cc00 !important; }
 
 .logo-bg {
     position: fixed;
@@ -13,72 +33,24 @@ html, body {
     opacity: .1;
     z-index: -1;
     background-size: contain;
-}
 
-.stat-container > div {
-    display: inline-block;
-    vertical-align: top;
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -ms-filter: blur(1px);
+    -o-filter: blur(1px);
 }
-
-.stat-container > div > h2 {
-    padding: 0;
-    margin: 0;
-}
-
-.stat-item {
-    padding: 30px 36px;
-}
-
-.stat-item .stat-label {
-    padding-left: .3em;
-    font-size: 1.5em;
-    text-transform: capitalize;
-}
-
-.stat-item .stat-buffer-outer {
-    height: 41px;
-    width: 300px;
-    border: solid 1px #555;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 0 2px #333;
-}
-
-.stat-item .stat-buffer-outer .stat-percent {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    font-size: 1.6em;
-    padding: .35em;
-    z-index: 1;
-    text-align: center;
-}
-.stat-item .stat-buffer-outer,
-.stat-item .stat-buffer-outer .stat-buffer-inner { border-radius: 22px; }
-
-.stat-item .stat-buffer-outer .stat-buffer-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 30%;
-    background-color: #77dd77;
-}
-
-/* .stat-item .stat-buffer-outer .stat-buffer-highlight {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5%;
-    z-index: 1;
-    background-color: #fff;
-} */
 
 .upload-file-btn,
-.modal-bg {
-    position: fixed;
+.modal-bg { position: fixed; }
+
+.modal-bg { 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9998;
+    opacity: 0.6;
 }
 
 .upload-file-btn {
@@ -98,16 +70,36 @@ html, body {
     box-shadow: 0 0 4px #000;
 }
 
-.modal-bg { 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    z-index: 9998;
-    opacity: 0.6;
+.container-fluid,
+.borough-container { position: inherit; }
+.borough { float: left; width: 33.33%; }
+
+div.borough div.borough-label {
+    text-transform: uppercase;
+    box-shadow: 0 4px 3px -4px #333;
+    font-size: 1.5em;
+    backdrop-filter: blur(5px);
+    border-bottom: solid 1px #999;
+    border-top: solid 1px #fff;
+    white-space: nowrap;
 }
 
-.display-none { display: none !important; }
-.red-bg { background-color: #ff7676 !important; }
-.yellow-bg { background-color: #fff476 !important; }
+div.borough div.borough-label > div,
+div.borough div.route-container { padding: .6rem 1rem; }
+
+div.route { display: inline-block; width: 46%; white-space: nowrap; min-height: 3rem; margin-right: 5px; margin: 1.2rem 0; }
+div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; }
+
+div.route div.outer-progress-bar,
+div.route div.outer-progress-bar .inner-prograss-bar { border-radius: 20px; }
+
+div.route div.outer-progress-bar { position: relative; min-height: inherit; overflow: hidden; border: solid 1px #aaa; }
+
+div.route div.outer-progress-bar .inner-prograss-bar,
+div.route div.outer-progress-bar .progress-percent { position: absolute; top:0; left: 0; width: 100%; }
+
+div.route div.outer-progress-bar .inner-prograss-bar { height: 100%; }
+
+div.route div.outer-progress-bar .progress-percent { text-align: center; font-size: 1.4rem; padding: .7rem 0; } 
+
+
