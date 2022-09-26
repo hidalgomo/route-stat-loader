@@ -82,6 +82,7 @@ div.borough div.borough-label {
     border-bottom: solid 1px #999;
     border-top: solid 1px #fff;
     white-space: nowrap;
+    font-weight: bold;
 }
 
 div.borough div.borough-label > div,
@@ -93,7 +94,13 @@ div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; }
 div.route div.outer-progress-bar,
 div.route div.outer-progress-bar .inner-progress-bar { border-radius: 20px; }
 
-div.route div.outer-progress-bar { position: relative; min-height: inherit; overflow: hidden; border: solid 1px #aaa; }
+div.route div.outer-progress-bar {
+    position: relative;
+    min-height: inherit;
+    overflow: hidden;
+    border: solid 1px #aaa;
+    backdrop-filter: blur(5px);
+}
 
 div.route div.outer-progress-bar .inner-progress-bar,
 div.route div.outer-progress-bar .progress-percent { position: absolute; top:0; left: 0; width: 100%; }
