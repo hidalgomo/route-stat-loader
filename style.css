@@ -25,11 +25,11 @@ section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
 
 .primary-color { background-color: #006767 !important; color: #fff !important; }
 
-.red-bg { background-color: #ff7676 !important; }
-.yellow-bg { background-color: #fff476 !important; }
-.light-green-bg { background-color: #00df00 !important; }
-.mid-green-bg { background-color: #00cc00 !important; }
-.dark-green-bg { background-color: #009d63 !important; }
+.red-bg { background-color: #ff0000 !important; }
+.yellow-bg { background-color: #FFFF00 !important; }
+.light-green-bg { background-color: #adff2f !important; }
+.mid-green-bg { background-color: #00ff00 !important; }
+.dark-green-bg { background-color: #32cd32 !important; }
 
 .logo-bg {
     position: fixed;
@@ -84,7 +84,7 @@ section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
 
 div.borough div.borough-label {
     text-transform: uppercase;
-    box-shadow: 0 4px 3px -4px #333;
+    box-shadow: 0 10px 30px -4px #008000;
     font-size: 1.5em;
     backdrop-filter: blur(5px);
     border-bottom: solid 1px #999;
@@ -94,7 +94,7 @@ div.borough div.borough-label {
 }
 
 div.borough div.borough-label > div,
-div.borough div.route-container { padding: 1rem; }
+div.borough div.route-container { padding: 1rem; text-align: center; }
 
 div.route {
     position: relative;
@@ -107,7 +107,7 @@ div.route {
     cursor: pointer;
 }
 
-div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; }
+div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; font-weight: bold;}
 div.route div.outer-progress-bar,
 div.route div.outer-progress-bar .inner-progress-bar { border-radius: 20px; }
 
