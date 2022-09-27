@@ -3,7 +3,7 @@
 }
 
 @media only screen and (min-width: 600px) {
-    div.borough-label { background-color: #f5f5f5; }
+    div.borough-label { background-color: #fff; }
 }
 
 @media only screen and (max-width: 1350px) {
@@ -76,18 +76,17 @@ html, body {
 
 div.borough div.borough-label {
     text-transform: uppercase;
-    box-shadow: 0 15px 30px -4px #006400;
-    font-size: 2em;
+    box-shadow: 0 4px 3px -4px #333;
+    font-size: 1.5em;
     backdrop-filter: blur(5px);
-    border-bottom: solid 5px #999;
+    border-bottom: solid 1px #999;
     border-top: solid 1px #fff;
     white-space: nowrap;
     font-weight: bold;
-	text-align: center;
 }
 
 div.borough div.borough-label > div,
-div.borough div.route-container { padding: 2rem 1rem; }
+div.borough div.route-container { padding: .6rem 1rem; }
 
 div.route {
     position: relative;
