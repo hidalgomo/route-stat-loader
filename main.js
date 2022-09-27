@@ -54,14 +54,18 @@ class BoroughTemplate {
 
 class RouteTemplate {
     #evalClass(route) {
-        const percent = route.percentCompCombined * 100;
+        const percent =  Math.abs(route.percentCompCombined * 100);
 
-        if (percent > 50 && percent < 80) {
-            return 'yellow-bg';
-        } else if (percent < 50) {
+        if (percent < 50) {
             return 'red-bg';
+        } else if (percent >= 50 && percent < 70) {
+            return 'yellow-bg';
+        } else if (percent >= 70 && percent < 80) {
+            return 'light-green-bg';
+        } else if (percent >= 80 && percent < 90) {
+            return 'mid-green-bg';
         } else {
-            return 'green-bg';
+            return 'dark-green-bg';
         }
     }
 

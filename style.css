@@ -18,10 +18,15 @@ html, body {
     padding: 0;
 }
 
+section.toolbar-container { position: relative; padding: 1rem; color: #FFF; }
+section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
+
 .display-none { display: none !important; }
 .red-bg { background-color: #ff7676 !important; }
 .yellow-bg { background-color: #fff476 !important; }
-.green-bg { background-color: #00cc00 !important; }
+.light-green-bg { background-color: #00df00 !important; }
+.mid-green-bg { background-color: #00cc00 !important; }
+.dark-green-bg { background-color: #009d63 !important; }
 
 .logo-bg {
     position: fixed;
@@ -85,8 +90,8 @@ div.borough div.borough-label {
     font-weight: bold;
 }
 
-div.borough div.borough-label > div,
-div.borough div.route-container { padding: .6rem 1rem; }
+div.borough div.borough-label > div { padding: .7rem 1rem; }
+div.borough div.route-container { padding: 1rem; }
 
 div.route {
     position: relative;
@@ -94,8 +99,8 @@ div.route {
     width: 46%;
     white-space: nowrap;
     min-height: 3rem;
-    margin-right: 5px;
-    margin: 1.2rem 0;
+    margin-right: 1.19rem !important;
+    margin: 2.5rem 0;
     cursor: pointer;
 }
 
