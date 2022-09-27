@@ -18,10 +18,13 @@ html, body {
     padding: 0;
 }
 
-section.toolbar-container { position: relative; padding: 1rem; color: #FFF; }
+section.toolbar-container { position: relative; padding: 1rem; }
 section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
 
 .display-none { display: none !important; }
+
+.primary-color { background-color: #006767 !important; color: #fff !important; }
+
 .red-bg { background-color: #ff7676 !important; }
 .yellow-bg { background-color: #fff476 !important; }
 .light-green-bg { background-color: #00df00 !important; }
@@ -99,7 +102,7 @@ div.route {
     width: 46%;
     white-space: nowrap;
     min-height: 3rem;
-    margin-right: 1.19rem !important;
+    margin-right: 1rem !important;
     margin: 2.5rem 0;
     cursor: pointer;
 }
