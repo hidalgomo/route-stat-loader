@@ -19,7 +19,12 @@ html, body {
 }
 
 section.toolbar-container { position: relative; padding: 1rem; border-bottom: solid 1px #333; }
-section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
+section.toolbar-container div.brand h2 { 
+    margin: 0;
+    padding: 0 0 0 2rem;
+    background: url(./dsny_logo.png) no-repeat center left;
+    background-size: contain;
+}
 
 .display-none { display: none !important; }
 
@@ -37,7 +42,7 @@ section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(./DSNY_logo_2016.jpg) no-repeat center center;
+    background: url(./dsny_logo.png) no-repeat center center;
     opacity: .1;
     z-index: -1;
     background-size: contain;
@@ -84,7 +89,7 @@ section.toolbar-container div.brand h2 { margin: 0; padding: 0 0 0 1rem; }
 
 div.borough div.borough-label {
     text-transform: uppercase;
-    box-shadow: 0 10px 30px -4px #008000;
+    box-shadow: 0 4px 3px -4px #008000;
     font-size: 1.5em;
     backdrop-filter: blur(5px);
     border-bottom: solid 1px #999;
@@ -94,7 +99,7 @@ div.borough div.borough-label {
 }
 
 div.borough div.borough-label > div,
-div.borough div.route-container { padding: 1rem; text-align: center; }
+div.borough div.route-container { padding: 1rem; }
 
 div.route {
     position: relative;
