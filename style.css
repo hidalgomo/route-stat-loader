@@ -67,7 +67,7 @@ section.toolbar-container div.brand h2 {
     width: 100%;
     height: 100%;
     background-color: #000;
-    z-index: 9998;
+    z-index: 9990;
     opacity: 0.6;
 }
 
@@ -79,7 +79,7 @@ section.toolbar-container div.brand h2 {
     margin-top: -75px;
     margin-left: -75px;
     background-color: #fff;
-    z-index: 9999;
+    z-index: 9991;
     border-radius: 6px;
     overflow: hidden;
     background: url(./upload_icon.png) no-repeat center center #fff;
@@ -142,3 +142,29 @@ div.route div.outer-progress-bar .progress-percent {
 
 div.route:hover div.outer-progress-bar .progress-percent { font-size: 2rem;  }
 
+aside.route-detail-container {
+    position: fixed;
+    top: 0;
+    right:0;
+    height: 100%;
+    width: 0;
+    z-index: 9991;
+    background-color: #fff;
+    max-width: 400px;
+    box-shadow: 1px 0 3px #333;
+    overflow: hidden;
+    transition: ease-in-out .3s;
+}
+
+aside.route-detail-container div.tool-list { text-align: right; font-weight: 100; color: #444;  }
+
+aside.route-detail-container div.tool-list .tool { 
+    display: inline-block; 
+    font-size: 2.6rem; 
+    cursor: pointer; 
+    padding: 0 2rem; 
+    outline: none;
+    user-select: none;
+}
+
+section.route-detail { padding: 2rem; width: 400px; }

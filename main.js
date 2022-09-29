@@ -1,3 +1,52 @@
+class Displayer {
+    constructor(element) {
+        if (this.constructor === Displayer) {
+            throw new Error('Abstract classe cannot be instantiated.');
+        }
+
+        Object.defineProperty(this, 'element', {
+            value: element,
+            writable: false
+        });
+    }
+
+    show() { 
+        this.element.classList.remove('display-none');
+    }
+
+    hide() {
+        this.element.classList.add('display-none');
+    }
+}
+
+const modal = (() => {
+    class Modal extends Displayer {
+        constructor() {
+            super(document.querySelector('.modal-bg'));
+        }
+    }
+
+    return new Modal();
+})();
+
+const uploadBtn = (() => {
+    class UploadBtn extends Displayer {
+        constructor() {
+            const btn = document.querySelector('.upload-file-btn');
+            btn.addEventListener('click', function () { fileInput.click() }, false);
+            super(btn);
+        }
+    }
+
+    return new UploadBtn();
+})();
+
+const routeDetailContainer = document.querySelector('.route-detail-container');
+const routeDetailCloseBtn = document.getElementById('closeRouteDetailBtn').addEventListener('click', () => {
+    routeDetailContainer.style.width = 0;
+    modal.hide();
+});
+
 const boroughMapping = {
     MB: { name: 'Manhattan-Bronx', orderNum: 1 },
     BQ: { name: 'Brooklyn-Queens', orderNum: 2 },
@@ -33,28 +82,9 @@ const routeMapping = {
     SI_99_RH_H104: 'WEST SHORE EXPRESSWAY'
 };
 
-class BoroughTemplate {
-    Create(borough) {
-        const parentElem = document.createElement('div');
-        parentElem.classList.add('borough');
-
-        let routeHtml = '';
-        for (let route of borough.routes) {
-            routeHtml += route.template().Create(route);
-        }
-
-        parentElem.innerHTML = `
-            <div class="borough-label">
-                <div>${ borough.fullName.toLowerCase() }</div>
-            </div>
-            <div class="route-container">${ routeHtml }</div>`;
-        return parentElem;
-    }
-}
-
-class RouteTemplate {
-    #evalClass(route) {
-        const percent =  Math.abs(route.percentCompCombined * 100);
+class Route {
+    #evalClass() {
+        const percent =  Math.abs(this.percentCompCombined * 100);
 
         if (percent < 50) {
             return 'red-bg';
@@ -69,25 +99,6 @@ class RouteTemplate {
         }
     }
 
-    Create(route) {
-        return `
-            <div class="route">
-                <div class="route-label">${ route.fullName.toLowerCase() }</div>
-                <div class="outer-progress-bar">
-                    <div class="inner-progress-bar ${ this.#evalClass( route ) }"></div>
-                    <div class="progress-percent">${ (route.percentCompCombined * 100).toFixed(1) }%</div>
-                </div>
-            </div>`;
-    }
-}
-
-// Utilize the factory pattern to comply with DIP (Dependency Inversion Principle).
-const TemplateFactory = {
-    CreateRouteTemplate: () => { return new RouteTemplate() },
-    CreateBoroughTemplate: () => { return new BoroughTemplate() }
-};
-
-class Route {
     constructor(routeData) {
         this.borough =              routeData[0];
         this.tier =                 routeData[1];
@@ -99,7 +110,17 @@ class Route {
         this.percentCompSpecific =  parseFloat(routeData[7], 10);
         this.percentCompCombined =  parseFloat(routeData[8], 10);
         this.fullName = routeMapping[this.shortName];
-        this.template = TemplateFactory.CreateRouteTemplate;
+    }
+
+    template() {
+        return `
+            <div class="route" id="${ this.shortName }">
+                <div class="route-label">${ this.fullName.toLowerCase() }</div>
+                <div class="outer-progress-bar">
+                    <div class="inner-progress-bar ${ this.#evalClass() }"></div>
+                    <div class="progress-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</div>
+                </div>
+            </div>`;
     }
 }
 
@@ -108,148 +129,170 @@ class Borough {
         this.shortName = boroughShortName;
         this.fullName = boroughMapping[boroughShortName].name;
         this.routes = [];
-        this.template = TemplateFactory.CreateBoroughTemplate;
+    }
+
+    template() {
+        let routeHtml = '';
+        for (let route of this.routes) {
+            routeHtml += route.template();
+        }
+
+        return `
+            <div class="borough">
+                <div class="borough-label">
+                    <div>${ this.fullName.toLowerCase() }</div>
+                </div>
+                <div class="route-container">${ routeHtml }</div>
+            </div>`;
     }
 }
 
-// store should not couple borough with route so tightly. it should be loosly coupled for better flexibility.
-// Saparating borough from routes allows for a more flexible lookup and connecting based on reference thereafter.
-class Store {
-    #boroughs = [];
-    #routes = [];
+const store = (() => {
+    class Store {
+        #boroughs = [];
+        #routes = [];
 
-    // Stores unique borough into private array property
-    #loadBoroughs(data) {
-        const uniqueBoroughShortNames = new Set(data.map(x => x.substring(0, 2)));
-        this.#boroughs = [...uniqueBoroughShortNames].map(x => new Borough(x));
+        // Stores unique borough into private array property
+        #loadBoroughs(data) {
+            const uniqueBoroughShortNames = new Set(data.map(x => x.substring(0, 2)));
+            this.#boroughs = [...uniqueBoroughShortNames].map(x => new Borough(x));
+        }
+
+        #loadRoutes(data) {
+            this.#routes = data.map(x => new Route(x.split(',')));
+        }
+
+        constructor() {}
+
+        load(data) {
+            this.#loadBoroughs( data );
+            this.#loadRoutes( data );
+        }
+
+        sortByOrderNum() {
+            this.#boroughs = this.#boroughs.sort((a, b) => {
+                return boroughMapping[a.shortName].orderNum < boroughMapping[b.shortName].orderNum? -1 : 1;
+            });
+        }
+
+        getBoroughsWithUniqueRoutes() {
+            const uniqueRoutes = [];
+            const addedRouteName = new Set();
+
+            for(let route of this.#routes) {
+                if (!addedRouteName.has(route.shortName)) {
+                    uniqueRoutes.push(route);
+                    addedRouteName.add(route.shortName);
+                }
+            }
+
+            for (let borough of this.#boroughs) {
+                borough.routes = uniqueRoutes.filter(x => borough.shortName === x.borough);
+            }
+
+            return this.#boroughs;
+        }
+
+        getRoutesByName(name) {
+            return this.#routes.filter(x => x.shortName === name);
+        }
     }
 
-    #loadRoutes(data) {
-        this.#routes = data.map(x => new Route(x.split(',')));
+    return new Store();
+})();
+
+const renderer = (() => {
+    class Renderer {
+        #rootElem;
+    
+        constructor() { }
+    
+        root(className) {
+            this.#rootElem = document.querySelector(className);
+            return this;
+        }
+    
+        render(data) {
+            return new Promise((resolved, rejected) => {
+                let html = '';
+
+                for(let x of data) {
+                    html += x.template();
+                }
+
+                this.#rootElem.innerHTML = html;
+                setTimeout(() => resolved(), 100);
+            });
+        }
+    
+        afterRender(callback) {
+            for(let routeElem of document.getElementsByClassName('route')) {
+                routeElem.children[1].children[0].style.width = routeElem.children[1].children[1].innerHTML;
+    
+                routeElem.addEventListener('click', function() {
+                    callback(this);
+                });
+            }
+        }
     }
 
-    constructor() {}
+    return new Renderer();
+})();
 
-    Load(data) {
-        this.#loadBoroughs( data );
-        this.#loadRoutes( data );
-    }
+const app = (() => {
+    class App {
+        #Init() {
+            const that = this;
+            const fileElem = document.getElementById('fileInput');
+            const fileReader = new FileReader();
+            fileElem.addEventListener('change', function () {
+                if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+                    return;
+                }
+                const file = fileElem.files[0];
+                fileReader.readAsText( file );
+            }, false);
 
-    SortByOrderNum() {
-        this.#boroughs = this.#boroughs.sort((a, b) => {
-            return boroughMapping[a.shortName].orderNum < boroughMapping[b.shortName].orderNum? -1 : 1;
-        });
-    }
-
-    GetBoroughsWithUniqueRoutes() {
-        const uniqueRoutes = [];
-        const addedRouteName = new Set();
-
-        for(let route of this.#routes) {
-            if (!addedRouteName.has(route.shortName)) {
-                uniqueRoutes.push(route);
-                addedRouteName.add(route.shortName);
+            fileReader.onload = function() {
+                const data = fileReader.result.split('\n');
+                data.shift();
+                that.callback( data );
             }
         }
 
-        for (let borough of this.#boroughs) {
-            borough.routes = uniqueRoutes.filter(x => borough.shortName === x.borough);
+        constructor() {
+            this.callback;
+            // Certainly the implmentation of the Init method could have been placed here in the construtor.
+            // However, if its ever needed to switch the Init method for anothe form of implmetation it
+            // can easly be done without having to change anything from the Init method. This follows
+            // the OCP (OPen Close Principle) SOLID standards.
+            this.#Init();
         }
 
-        return this.#boroughs;
-    }
-
-    GetRoutesByBoroughShortName(boroughShortName) {
-        return this.#routes.filter(x => x.borough === boroughShortName);
-    }
-}
-
-class Renderer {
-    #rootElem;
-
-    constructor(className) {
-        this.#rootElem = document.querySelector(className);
-    }
-
-    Render(data) {
-        data.map(x => {
-            this.#rootElem.appendChild( x.template().Create(x) );
-        });
-    }
-
-    FillProgress() {
-        setTimeout(() => {
-            for(let node of document.getElementsByClassName('outer-progress-bar')) {
-                node.children[0].style.width = node.children[1].innerHTML;
-            }  
-        }, 100);
-    }
-}
-
-class Engine {
-
-    #uploadBtn;
-    #modalBg;
-
-    #Init() {
-        const that = this;
-        const fileElem = document.getElementById('fileInput');
-        const fileReader = new FileReader();
-        fileElem.addEventListener('change', function () {
-            if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-                return;
-            }
-            const file = fileElem.files[0];
-            fileReader.readAsText( file );
-        }, false);
-
-        fileReader.onload = function() {
-            const data = fileReader.result.split('\n');
-            data.shift();
-            that.callback( data );
+        run(callback) {
+            this.callback = callback;
         }
     }
 
-    constructor() {
-        this.callback;
-        // Certainly the implmentation of the Init method could have been placed here in the construtor.
-        // However, if its ever needed to switch the Init method for anothe form of implmetation it
-        // can easly be done without having to change anything from the Init method. This follows
-        // the OCP (OPen Close Principle) SOLID standards.
-        this.#uploadBtn = document.querySelector('.upload-file-btn');
-        this.#modalBg = document.querySelector('.modal-bg');
-        this.#uploadBtn.addEventListener('click', function () { fileInput.click() }, false);
+    return new App();
+})();
 
-        this.#Init();
-    }
+app.run(data => {
+    store.load(data);
+    store.sortByOrderNum();
+    const initialDataset = store.getBoroughsWithUniqueRoutes();
 
-    // Start methods sets a set of callbacks that perform a specific task on data being loaded.
-    Start(callback) {
-        this.callback = callback;
-    }
+    renderer.root('.borough-container')
+        .render( initialDataset ).then(() => { 
+            renderer.afterRender(elem => {
+                modal.show();
+                routeDetailContainer.style.width = '400px';
+                const routes = store.getRoutesByName(elem.id);
+                renderer.root('.route-detail')
+                    .render( routes );
+            });
+    });
 
-    HideUploadBtn() {
-        this.#uploadBtn.classList.add('display-none');
-    }
-
-    HideModalBg() {
-        this.#modalBg.classList.add('display-none');
-    }
-}
-
-const engine = new Engine();
-
-engine.Start(data => {
-
-    const store = new Store();
-    store.Load(data);
-    store.SortByOrderNum();
-    const initialDataset = store.GetBoroughsWithUniqueRoutes();
-
-    const renderer = new Renderer('.borough-container');
-    renderer.Render( initialDataset );
-    renderer.FillProgress();
-
-    engine.HideUploadBtn();
-    engine.HideModalBg();
+    uploadBtn.hide();
+    modal.hide();
 });
