@@ -102,9 +102,7 @@ app.modal = (() => {
 
         hide() {
             this._hide();
-            this.executables.map(x => {
-                console.log(x());
-            });
+            this.executables.map(x => x());
             this.executables = [];
         }
     }
@@ -148,6 +146,22 @@ app.routeDetailModal = (() => {
     }
 
     return new RouteDetailModal();
+})();
+
+app.routeDetailModal.closeBtn = (() => {
+    executables = [];
+    class RouteModalCloseBtn extends Artifact {
+        constructor() {
+            super(document.getElementById('closeRouteDetailBtn'));
+            this.element.addEventListener('click', () => this.executables.map(x => x()));
+        }
+
+        init(executables) {
+            this.executables = [...executables];
+        }
+    }
+
+    return new RouteModalCloseBtn();
 })();
 
 const boroughMapping = {
@@ -342,12 +356,12 @@ const renderer = (() => {
     return new Renderer();
 })();
 
-const routeDetailCloseBtn = document.getElementById('closeRouteDetailBtn').addEventListener('click', () => {
-    app.routeDetailModal.hide();
-    app.modal.hide();
-});
+app.modal.show([ () => app.uploadBtn.hide() ]);
 
-app.modal.show([ () => app.uploadBtn.hide() ])
+app.routeDetailModal.closeBtn.init([
+    () => app.modal.hide(),
+    () => app.routeDetailModal.hide()
+])
 
 app.run(data => {
     store.load(data);
