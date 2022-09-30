@@ -15,6 +15,10 @@
     section.toolbar-container div.brand h2 { padding: 0 0 0 4rem !important; }
 }
 
+@media only screen and (max-width: 395px) {
+    section.toolbar-container div.brand h2 { padding: 0 0 0 5rem !important; }
+}
+
 html, body {
     font-family:Helvetica, Arial, sans-serif;
     font-size: 0.90em;
