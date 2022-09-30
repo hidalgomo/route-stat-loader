@@ -232,6 +232,23 @@ app.uploadBtn = (() => {
     return new UploadBtn();
 })();
 
+app.startUploadBtn = (() => {
+    class StartUploadBtn extends Artifact {
+        executables = [];
+        
+        constructor() {
+            super(document.getElementById('startUploadBtn'));
+            this.element.addEventListener('click', () => this.executables.map(x => x()));
+        }
+
+        init(executables) {
+            this.executables = [...executables];
+        }
+    }
+
+    return new StartUploadBtn();
+})();
+
 app.routeDetailModal = (() => {
     class RouteDetailModal extends Slider {
         constructor() {
@@ -357,6 +374,11 @@ app.renderer = (() => {
 
     return new Renderer();
 })();
+
+app.startUploadBtn.init([
+    () => app.modal.show(),
+    () => app.uploadBtn.show()
+]);
 
 app.modal.init([
     () => app.uploadBtn.hide(),

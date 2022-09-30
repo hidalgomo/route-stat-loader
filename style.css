@@ -23,7 +23,16 @@ html, body {
     padding: 0;
 }
 
-section.toolbar-container { position: relative; padding: 1rem; border-bottom: solid 1px #333; }
+section.toolbar-container {
+    position: relative;
+    padding: 1rem;
+    border-bottom: solid 1px #333;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
 section.toolbar-container div.brand h2 { 
     margin: 0;
     padding: 0 0 0 2rem;
@@ -31,10 +40,21 @@ section.toolbar-container div.brand h2 {
     background-size: contain;
 }
 
+section.toolbar-container div.tool-list div.tool {
+    cursor: pointer;
+    padding: .5rem 1.1rem;
+    border: solid 1px #005757;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+section.toolbar-container div.tool-list div.tool:hover {
+    background-color: #009797;
+    box-shadow: 0 0 2px #333;
+}
+
 .display-none { display: none !important; }
-
 .primary-color { background-color: #006767 !important; color: #fff !important; }
-
 .red-bg { background-color: #ff0000 !important; }
 .yellow-bg { background-color: #FFFF00 !important; }
 .light-green-bg { background-color: #adff2f !important; }
