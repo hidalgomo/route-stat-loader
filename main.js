@@ -47,6 +47,71 @@ class Slider extends Artifact {
     }
 }
 
+class Route {
+    #evalClass() {
+        const percent =  Math.abs(this.percentCompCombined * 100);
+
+        if (percent < 50) {
+            return 'red-bg';
+        } else if (percent >= 50 && percent < 70) {
+            return 'yellow-bg';
+        } else if (percent >= 70 && percent < 80) {
+            return 'light-green-bg';
+        } else if (percent >= 80 && percent < 90) {
+            return 'mid-green-bg';
+        } else {
+            return 'dark-green-bg';
+        }
+    }
+
+    constructor(routeData) {
+        this.borough =              routeData[0];
+        this.tier =                 routeData[1];
+        this.shortName =            routeData[2];
+        this.equipmentId =          routeData[3];
+        this.gpsSpecific =          parseFloat(routeData[4], 10);
+        this.gpsCombined =          parseFloat(routeData[5], 10);
+        this.routeLength =          parseFloat(routeData[6], 10);
+        this.percentCompSpecific =  parseFloat(routeData[7], 10);
+        this.percentCompCombined =  parseFloat(routeData[8], 10);
+        this.fullName = routeMapping[this.shortName];
+    }
+
+    template() {
+        return `
+            <div class="route" id="${ this.shortName }">
+                <div class="route-label">${ this.fullName.toLowerCase() }</div>
+                <div class="outer-progress-bar">
+                    <div class="inner-progress-bar ${ this.#evalClass() }"></div>
+                    <div class="progress-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</div>
+                </div>
+            </div>`;
+    }
+}
+
+class Borough {
+    constructor(boroughShortName) {
+        this.shortName = boroughShortName;
+        this.fullName = boroughMapping[boroughShortName].name;
+        this.routes = [];
+    }
+
+    template() {
+        let routeHtml = '';
+        for (let route of this.routes) {
+            routeHtml += route.template();
+        }
+
+        return `
+            <div class="borough">
+                <div class="borough-label">
+                    <div>${ this.fullName.toLowerCase() }</div>
+                </div>
+                <div class="route-container">${ routeHtml }</div>
+            </div>`;
+    }
+}
+
 const app = (() => {
     class App {
         #Init() {
@@ -92,7 +157,11 @@ app.modal = (() => {
 
         constructor() {
             super(document.querySelector('.modal-bg'));
-            this.element.addEventListener('click', () => { this.hide() });
+            this.element.addEventListener('click', () => this.hide());
+        }
+
+        init(executables) {
+            this.executables = [...executables];
         }
 
         show(executables) {
@@ -199,72 +268,7 @@ const routeMapping = {
     SI_99_RH_H104: 'WEST SHORE EXPRESSWAY'
 };
 
-class Route {
-    #evalClass() {
-        const percent =  Math.abs(this.percentCompCombined * 100);
-
-        if (percent < 50) {
-            return 'red-bg';
-        } else if (percent >= 50 && percent < 70) {
-            return 'yellow-bg';
-        } else if (percent >= 70 && percent < 80) {
-            return 'light-green-bg';
-        } else if (percent >= 80 && percent < 90) {
-            return 'mid-green-bg';
-        } else {
-            return 'dark-green-bg';
-        }
-    }
-
-    constructor(routeData) {
-        this.borough =              routeData[0];
-        this.tier =                 routeData[1];
-        this.shortName =            routeData[2];
-        this.equipmentId =          routeData[3];
-        this.gpsSpecific =          parseFloat(routeData[4], 10);
-        this.gpsCombined =          parseFloat(routeData[5], 10);
-        this.routeLength =          parseFloat(routeData[6], 10);
-        this.percentCompSpecific =  parseFloat(routeData[7], 10);
-        this.percentCompCombined =  parseFloat(routeData[8], 10);
-        this.fullName = routeMapping[this.shortName];
-    }
-
-    template() {
-        return `
-            <div class="route" id="${ this.shortName }">
-                <div class="route-label">${ this.fullName.toLowerCase() }</div>
-                <div class="outer-progress-bar">
-                    <div class="inner-progress-bar ${ this.#evalClass() }"></div>
-                    <div class="progress-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</div>
-                </div>
-            </div>`;
-    }
-}
-
-class Borough {
-    constructor(boroughShortName) {
-        this.shortName = boroughShortName;
-        this.fullName = boroughMapping[boroughShortName].name;
-        this.routes = [];
-    }
-
-    template() {
-        let routeHtml = '';
-        for (let route of this.routes) {
-            routeHtml += route.template();
-        }
-
-        return `
-            <div class="borough">
-                <div class="borough-label">
-                    <div>${ this.fullName.toLowerCase() }</div>
-                </div>
-                <div class="route-container">${ routeHtml }</div>
-            </div>`;
-    }
-}
-
-const store = (() => {
+app.store = (() => {
     class Store {
         #boroughs = [];
         #routes = [];
@@ -318,7 +322,7 @@ const store = (() => {
     return new Store();
 })();
 
-const renderer = (() => {
+app.renderer = (() => {
     class Renderer {
         #rootElem;
     
@@ -356,7 +360,9 @@ const renderer = (() => {
     return new Renderer();
 })();
 
-app.modal.show([ () => app.uploadBtn.hide() ]);
+app.modal.init([
+    () => app.uploadBtn.hide()
+]);
 
 app.routeDetailModal.closeBtn.init([
     () => app.modal.hide(),
@@ -364,17 +370,20 @@ app.routeDetailModal.closeBtn.init([
 ])
 
 app.run(data => {
-    store.load(data);
-    store.sortByOrderNum();
-    const initialDataset = store.getBoroughsWithUniqueRoutes();
+    app.store.load(data);
+    app.store.sortByOrderNum();
+    const initialDataset = app.store.getBoroughsWithUniqueRoutes();
 
-    renderer.root('.borough-container')
-        .render( initialDataset ).then(() => { 
-            renderer.afterRender(elem => {
+    app.renderer.root('.borough-container')
+        .render( initialDataset ).then(() => {
+
+            app.renderer.afterRender(elem => {
+
                 app.routeDetailModal.show();
                 app.modal.show([ () => app.routeDetailModal.hide() ]);
-                const routes = store.getRoutesByName(elem.id);
-                renderer.root('.route-detail').render( routes );
+                
+                const routes = app.store.getRoutesByName(elem.id);
+                app.renderer.root('.route-detail').render( routes );
             });
     });
 
