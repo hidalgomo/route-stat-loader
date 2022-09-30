@@ -390,7 +390,8 @@ app.renderer = (() => {
 
 app.startUploadBtn.init([
     () => app.modal.show(),
-    () => app.uploadBtn.show()
+    () => app.uploadBtn.show(),
+    () => app.uploadBtn.element.click()
 ]);
 
 app.modal.init([
