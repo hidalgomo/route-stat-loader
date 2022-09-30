@@ -115,10 +115,14 @@ class Route {
     template() {
         return `
             <div class="route" id="${ this.shortName }">
+                <div class="equipment-label">Equipment: ${ this.equipmentId }</div>
                 <div class="route-label">${ this.fullName.toLowerCase() }</div>
                 <div class="outer-progress-bar">
                     <div class="inner-progress-bar ${ this.#evalClass() }"></div>
-                    <div class="progress-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</div>
+                    <div class="progress-percent">
+                        <span class="combined-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</span>
+                        <span class="specific-percent">${ (this.percentCompSpecific * 100).toFixed(1) }%</span>
+                    </div>
                 </div>
             </div>`;
     }
@@ -256,7 +260,7 @@ app.routeDetailModal = (() => {
         }
 
         show() {
-            this._show('400px');
+            this._show('70%');
         }
 
         hide() {
@@ -362,12 +366,21 @@ app.renderer = (() => {
         }
     
         afterRender(callback) {
-            for(let routeElem of document.getElementsByClassName('route')) {
-                routeElem.children[1].children[0].style.width = routeElem.children[1].children[1].innerHTML;
-    
-                routeElem.addEventListener('click', function() {
-                    callback(this);
-                });
+            let innerProgressBar, percent;
+
+            for(let routeElem of this.#rootElem.getElementsByClassName('route')) {
+                innerProgressBar = routeElem.querySelector('.inner-progress-bar');
+
+                if (callback) {
+                    routeElem.addEventListener('click', function() {
+                        callback(this);
+                    });
+                    percent = routeElem.querySelector('.combined-percent').innerHTML;
+                } else {
+                    percent = routeElem.querySelector('.specific-percent').innerHTML;
+                }
+
+                innerProgressBar.style.width = percent;
             }
         }
     }
@@ -404,6 +417,7 @@ app.run(data => {
                 
                 const routes = app.store.getRoutesByName(elem.id);
                 app.renderer.root('.route-detail').render( routes );
+                app.renderer.afterRender();
             });
     });
 

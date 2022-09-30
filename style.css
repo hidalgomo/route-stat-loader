@@ -133,15 +133,25 @@ div.borough div.route-container { padding: 1rem; }
 div.route {
     position: relative;
     display: inline-block; 
-    width: 46%;
     white-space: nowrap;
     min-height: 3rem;
-    margin-right: 1rem !important;
-    margin: 2.5rem 0;
-    cursor: pointer;
 }
 
-div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; font-weight: bold;}
+/* CONTAINER SPECIFIC */
+.borough-container .borough div.route {
+    width: 46%;
+    margin-right: 1rem !important;
+    cursor: pointer;
+    margin: 2.5rem 0;
+}
+.borough-container .borough div.route .equipment-label,
+.borough-container .borough div.route .specific-percent,
+.route-detail-container .route-detail .combined-percent,
+.route-detail-container .route-detail div.route .route-label { display: none; }
+.route-detail-container .route-detail div.route { width: 100%; margin: 1.5rem 0; }
+
+div.route div.route-label,
+div.route div.equipment-label { font-size: 1.2rem; text-transform: capitalize; font-weight: bold; }
 div.route div.outer-progress-bar,
 div.route div.outer-progress-bar .inner-progress-bar { border-radius: 20px; }
 
@@ -164,7 +174,7 @@ div.route div.outer-progress-bar .progress-percent {
     transition: ease-in-out .1s;
 }
 
-div.route:hover div.outer-progress-bar .progress-percent { font-size: 2rem;  }
+.borough-container .borough div.route:hover div.outer-progress-bar .progress-percent { font-size: 2rem;  }
 
 aside.route-detail-container {
     position: fixed;
@@ -191,4 +201,8 @@ aside.route-detail-container div.tool-list .tool {
     user-select: none;
 }
 
-section.route-detail { padding: 2rem; width: 400px; }
+section.route-detail {
+    padding: 2rem;
+    display: flex;
+    flex-flow: row wrap;
+}
