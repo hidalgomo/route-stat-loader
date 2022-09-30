@@ -199,15 +199,13 @@ app.modal = (() => {
             this.executables = [...executables];
         }
 
-        show(executables) {
+        show() {
             this._show();
-            this.executables = [...executables];
         }
 
         hide() {
             this._hide();
             this.executables.map(x => x());
-            this.executables = [];
         }
     }
 
@@ -361,7 +359,8 @@ app.renderer = (() => {
 })();
 
 app.modal.init([
-    () => app.uploadBtn.hide()
+    () => app.uploadBtn.hide(),
+    () => app.routeDetailModal.hide()
 ]);
 
 app.routeDetailModal.closeBtn.init([
@@ -378,9 +377,8 @@ app.run(data => {
         .render( initialDataset ).then(() => {
 
             app.renderer.afterRender(elem => {
-
                 app.routeDetailModal.show();
-                app.modal.show([ () => app.routeDetailModal.hide() ]);
+                app.modal.show();
                 
                 const routes = app.store.getRoutesByName(elem.id);
                 app.renderer.root('.route-detail').render( routes );
