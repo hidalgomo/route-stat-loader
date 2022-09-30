@@ -1,7 +1,7 @@
-class Displayer {
+class Artifact {
     constructor(element) {
         if (this.constructor === Displayer) {
-            throw new Error('Abstract classe cannot be instantiated.');
+            throw new Error('Abstract class cannot be instantiated.');
         }
 
         Object.defineProperty(this, 'element', {
@@ -9,43 +9,146 @@ class Displayer {
             writable: false
         });
     }
+}
 
-    show() { 
+class Displayer extends Artifact {
+    constructor(element) {
+        super(element);
+
+        if (this.constructor === Displayer) {
+            throw new Error('Abstract class cannot be instantiated.');
+        }
+    }
+
+    _show() { 
         this.element.classList.remove('display-none');
     }
 
-    hide() {
+    _hide() {
         this.element.classList.add('display-none');
     }
 }
 
-const modal = (() => {
+class Slider extends Artifact {
+    constructor(element) {
+        super(element);
+
+        if (this.constructor === Displayer) {
+            throw new Error('Abstract class cannot be instantiated.');
+        }
+    }
+
+    _show(width) {
+        this.element.style.width = width;
+    }
+
+    _hide() {
+        this.element.style.width = 0;
+    }
+}
+
+const app = (() => {
+    class App {
+        #Init() {
+            const that = this;
+            const fileElem = document.getElementById('fileInput');
+            const fileReader = new FileReader();
+            fileElem.addEventListener('change', function () {
+                if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+                    return;
+                }
+                const file = fileElem.files[0];
+                fileReader.readAsText( file );
+            }, false);
+
+            fileReader.onload = function() {
+                const data = fileReader.result.split('\n');
+                data.shift();
+                that.callback( data );
+            }
+        }
+
+        constructor() {
+            this.callback;
+            // Certainly the implmentation of the Init method could have been placed here in the construtor.
+            // However, if its ever needed to switch the Init method for anothe form of implmetation it
+            // can easly be done without having to change anything from the Init method. This follows
+            // the OCP (OPen Close Principle) SOLID standards.
+            this.#Init();
+        }
+
+        run(callback) {
+            this.callback = callback;
+        }
+    }
+
+    return new App();
+})();
+ 
+app.modal = (() => {
     class Modal extends Displayer {
+
+        executables = [];
+
         constructor() {
             super(document.querySelector('.modal-bg'));
+            this.element.addEventListener('click', () => { this.hide() });
+        }
+
+        show(executables) {
+            this._show();
+            this.executables = [...executables];
+        }
+
+        hide() {
+            this._hide();
+            this.executables.map(x => {
+                console.log(x());
+            });
+            this.executables = [];
         }
     }
 
     return new Modal();
 })();
 
-const uploadBtn = (() => {
+app.uploadBtn = (() => {
     class UploadBtn extends Displayer {
         constructor() {
             const btn = document.querySelector('.upload-file-btn');
             btn.addEventListener('click', function () { fileInput.click() }, false);
             super(btn);
         }
+
+        show() {
+            this._show();
+        }
+
+        hide() {
+            this._hide()
+        }
     }
 
     return new UploadBtn();
 })();
 
-const routeDetailContainer = document.querySelector('.route-detail-container');
-const routeDetailCloseBtn = document.getElementById('closeRouteDetailBtn').addEventListener('click', () => {
-    routeDetailContainer.style.width = 0;
-    modal.hide();
-});
+app.routeDetailModal = (() => {
+    class RouteDetailModal extends Slider {
+        constructor() {
+            super(document.querySelector('.route-detail-container'));
+        }
+
+        show() {
+            this._show('400px');
+        }
+
+        hide() {
+            this._hide();
+        }
+    }
+
+    return new RouteDetailModal();
+})();
 
 const boroughMapping = {
     MB: { name: 'Manhattan-Bronx', orderNum: 1 },
@@ -239,43 +342,12 @@ const renderer = (() => {
     return new Renderer();
 })();
 
-const app = (() => {
-    class App {
-        #Init() {
-            const that = this;
-            const fileElem = document.getElementById('fileInput');
-            const fileReader = new FileReader();
-            fileElem.addEventListener('change', function () {
-                if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-                    return;
-                }
-                const file = fileElem.files[0];
-                fileReader.readAsText( file );
-            }, false);
+const routeDetailCloseBtn = document.getElementById('closeRouteDetailBtn').addEventListener('click', () => {
+    app.routeDetailModal.hide();
+    app.modal.hide();
+});
 
-            fileReader.onload = function() {
-                const data = fileReader.result.split('\n');
-                data.shift();
-                that.callback( data );
-            }
-        }
-
-        constructor() {
-            this.callback;
-            // Certainly the implmentation of the Init method could have been placed here in the construtor.
-            // However, if its ever needed to switch the Init method for anothe form of implmetation it
-            // can easly be done without having to change anything from the Init method. This follows
-            // the OCP (OPen Close Principle) SOLID standards.
-            this.#Init();
-        }
-
-        run(callback) {
-            this.callback = callback;
-        }
-    }
-
-    return new App();
-})();
+app.modal.show([ () => app.uploadBtn.hide() ])
 
 app.run(data => {
     store.load(data);
@@ -285,14 +357,13 @@ app.run(data => {
     renderer.root('.borough-container')
         .render( initialDataset ).then(() => { 
             renderer.afterRender(elem => {
-                modal.show();
-                routeDetailContainer.style.width = '400px';
+                app.routeDetailModal.show();
+                app.modal.show([ () => app.routeDetailModal.hide() ]);
                 const routes = store.getRoutesByName(elem.id);
-                renderer.root('.route-detail')
-                    .render( routes );
+                renderer.root('.route-detail').render( routes );
             });
     });
 
-    uploadBtn.hide();
-    modal.hide();
+    app.uploadBtn.hide();
+    app.modal.hide();
 });
