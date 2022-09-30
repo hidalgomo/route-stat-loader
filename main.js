@@ -116,7 +116,7 @@ class Route {
         return `
             <div class="route" id="${ this.shortName }">
                 <div class="equipment-label">Equipment: ${ this.equipmentId }</div>
-                <div class="route-label">${ this.fullName.toLowerCase() }</div>
+                <div class="route-label">${ this.fullName && this.fullName.toLowerCase() }</div>
                 <div class="outer-progress-bar">
                     <div class="inner-progress-bar ${ this.#evalClass() }"></div>
                     <div class="progress-percent">
@@ -131,7 +131,7 @@ class Route {
 class Borough {
     constructor(boroughShortName) {
         this.shortName = boroughShortName;
-        this.fullName = boroughMapping[boroughShortName].name;
+        this.fullName = boroughMapping[boroughShortName] && boroughMapping[boroughShortName].name;
         this.routes = [];
     }
 
@@ -144,7 +144,7 @@ class Borough {
         return `
             <div class="borough">
                 <div class="borough-label">
-                    <div>${ this.fullName.toLowerCase() }</div>
+                    <div>${ this.fullName && this.fullName.toLowerCase() }</div>
                 </div>
                 <div class="route-container">${ routeHtml }</div>
             </div>`;
@@ -295,11 +295,11 @@ app.store = (() => {
         // Stores unique borough into private array property
         #loadBoroughs(data) {
             const uniqueBoroughShortNames = new Set(data.map(x => x.substring(0, 2)));
-            this.#boroughs = [...uniqueBoroughShortNames].map(x => new Borough(x));
+            this.#boroughs = [...uniqueBoroughShortNames].filter(x => !!x).map(x => new Borough(x));
         }
 
         #loadRoutes(data) {
-            this.#routes = data.map(x => new Route(x.split(',')));
+            this.#routes = data.filter(x => !!x).map(x => new Route(x.split(',')));
         }
 
         constructor() {}
@@ -311,6 +311,10 @@ app.store = (() => {
 
         sortByOrderNum() {
             this.#boroughs = this.#boroughs.sort((a, b) => {
+                if (!boroughMapping[a.shortName] || !boroughMapping[b.shortName]) {
+                    return 1;
+                }
+
                 return boroughMapping[a.shortName].orderNum < boroughMapping[b.shortName].orderNum? -1 : 1;
             });
         }
