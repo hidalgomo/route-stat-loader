@@ -186,11 +186,12 @@ aside.route-detail-container {
     background-color: #fff;
     max-width: 400px;
     box-shadow: 1px 0 3px #333;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     transition: ease-in-out .3s;
 }
 
-aside.route-detail-container div.tool-list { text-align: right; font-weight: 100; color: #444;  }
+aside.route-detail-container div.tool-list { text-align: right; font-weight: 100; color: #444; }
 
 aside.route-detail-container div.tool-list .tool { 
     display: inline-block; 
