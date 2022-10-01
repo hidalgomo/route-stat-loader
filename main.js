@@ -294,11 +294,24 @@ app.store = (() => {
         // Stores unique borough into private array property
         #loadBoroughs(data) {
             const uniqueBoroughShortNames = new Set(data.map(x => x.substring(0, 2)));
-            this.#boroughs = [...uniqueBoroughShortNames].filter(x => !!x).map(x => new Borough(x));
+
+            for(let dataItem of [...uniqueBoroughShortNames]) {
+                if (!dataItem) {
+                    continue;
+                }
+
+                this.#boroughs.push(new Borough(dataItem));
+            }
         }
 
         #loadRoutes(data) {
-            this.#routes = data.filter(x => !!x).map(x => new Route(x.split(',')));
+            for (let dataItem of data) {
+                if (!dataItem) {
+                    continue;
+                }
+
+                this.#routes.push(new Route(dataItem.split(',')));
+            }
         }
 
         constructor() {}
