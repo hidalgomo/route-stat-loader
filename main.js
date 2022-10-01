@@ -219,9 +219,8 @@ app.modal = (() => {
 app.uploadBtn = (() => {
     class UploadBtn extends Displayer {
         constructor() {
-            const btn = document.querySelector('.upload-file-btn');
-            btn.addEventListener('click', function () { fileInput.click() }, false);
-            super(btn);
+            super(document.querySelector('.upload-file-btn'));
+            this.element.addEventListener('click', () => fileInput.click(), false);
         }
 
         show() {
