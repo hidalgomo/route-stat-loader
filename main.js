@@ -317,6 +317,8 @@ app.store = (() => {
         constructor() {}
 
         load(data) {
+            this.#boroughs = [];
+            this.#routes = [];
             this.#loadBoroughs( data );
             this.#loadRoutes( data );
         }
@@ -369,6 +371,9 @@ app.renderer = (() => {
         }
     
         render(data) {
+            this.#rootElem.innerHTML = '';
+            document.getElementById('fileInput').value = '';
+
             return new Promise((resolved, rejected) => {
                 let html = '';
 
