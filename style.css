@@ -47,7 +47,7 @@ section.toolbar-container div.brand h2 {
 section.toolbar-container div.tool-list div.tool {
     cursor: pointer;
     padding: .5rem 1.1rem;
-    border: solid 1px #005757;
+    border: solid 1px #fff;
     border-radius: 4px;
     font-size: 1rem;
 }
@@ -58,7 +58,7 @@ section.toolbar-container div.tool-list div.tool:hover {
 }
 
 .display-none { display: none !important; }
-.primary-color { background-color: #006767 !important; color: #fff !important; }
+.primary-color { background-color: #0B6623 !important; color: #fff !important; }
 .red-bg { background-color: #ff0000 !important; }
 .yellow-bg { background-color: #FFFF00 !important; }
 .light-green-bg { background-color: #adff2f !important; }

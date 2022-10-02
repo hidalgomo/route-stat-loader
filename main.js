@@ -83,16 +83,16 @@ const routeMapping = {
 };
 
 class Route {
-    #evalClass() {
-        const percent =  Math.abs(this.percentCompCombined * 100);
+    #evalClass(percent) {
+        const calcPercent =  Math.abs(percent * 100);
 
-        if (percent < 50) {
+        if (calcPercent < 50) {
             return 'red-bg';
-        } else if (percent >= 50 && percent < 70) {
+        } else if (calcPercent >= 50 && calcPercent < 70) {
             return 'yellow-bg';
-        } else if (percent >= 70 && percent < 80) {
+        } else if (calcPercent >= 70 && calcPercent < 80) {
             return 'light-green-bg';
-        } else if (percent >= 80 && percent < 90) {
+        } else if (calcPercent >= 80 && calcPercent < 90) {
             return 'mid-green-bg';
         } else {
             return 'dark-green-bg';
@@ -118,7 +118,8 @@ class Route {
                 <div class="equipment-label">Equipment: ${ this.equipmentId }</div>
                 <div class="route-label">${ this.fullName && this.fullName.toLowerCase() }</div>
                 <div class="outer-progress-bar">
-                    <div class="inner-progress-bar ${ this.#evalClass() }"></div>
+                    <div class="inner-progress-bar combined ${ this.#evalClass(this.percentCompCombined) }"></div>
+                    <div class="inner-progress-bar specific ${ this.#evalClass(this.percentCompSpecific) }"></div>
                     <div class="progress-percent">
                         <span class="combined-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</span>
                         <span class="specific-percent">${ (this.percentCompSpecific * 100).toFixed(1) }%</span>
@@ -400,14 +401,14 @@ app.renderer = (() => {
             let innerProgressBar, percent;
 
             for(let routeElem of this.#rootElem.getElementsByClassName('route')) {
-                innerProgressBar = routeElem.querySelector('.inner-progress-bar');
-
                 if (callback) {
                     routeElem.addEventListener('click', function() {
                         callback(this);
                     });
+                    innerProgressBar = routeElem.getElementsByClassName('inner-progress-bar')[0];
                     percent = routeElem.querySelector('.combined-percent').innerHTML;
                 } else {
+                    innerProgressBar = routeElem.getElementsByClassName('inner-progress-bar')[1];
                     percent = routeElem.querySelector('.specific-percent').innerHTML;
                 }
 
