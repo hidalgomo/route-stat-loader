@@ -202,8 +202,11 @@ aside.route-detail-container div.tool-list .tool {
     user-select: none;
 }
 
+div.selected-route-label { padding: 0 2rem; font-weight: bold; font-size: 1.2rem; }
+
 section.route-detail {
     padding: 2rem;
+    padding-top: 0;
     display: flex;
     flex-flow: row wrap;
 }

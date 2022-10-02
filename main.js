@@ -270,6 +270,16 @@ app.routeDetailModal = (() => {
     return new RouteDetailModal();
 })();
 
+app.routeDetailModal.selectedRouteElem = (() => {
+    class SelectedRouteElem extends Artifact {
+        constructor() {
+            super(document.querySelector('.selected-route-label'));
+        }
+    }
+
+    return new SelectedRouteElem();
+})();
+
 app.routeDetailModal.closeBtn = (() => {
     executables = [];
     class RouteModalCloseBtn extends Artifact {
@@ -433,13 +443,15 @@ app.run(data => {
     app.renderer.root('.borough-container')
         .render( initialDataset ).then(() => {
 
+            // display selected route details
             app.renderer.afterRender(elem => {
-                app.routeDetailModal.show();
-                app.modal.show();
-                
                 const routes = app.store.getRoutesByName(elem.id);
                 app.renderer.root('.route-detail').render( routes );
                 app.renderer.afterRender();
+
+                app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
+                app.routeDetailModal.show();
+                app.modal.show();
             });
     });
 
