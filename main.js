@@ -112,17 +112,14 @@ class Route {
         this.fullName = routeMapping[this.shortName];
     }
 
-    template() {
+    template(labelPropName = 'fullName', percentPropName = 'percentCompCombined') {
         return `
             <div class="route" id="${ this.shortName }">
-                <div class="equipment-label">Equipment: ${ this.equipmentId }</div>
-                <div class="route-label">${ this.fullName && this.fullName.toLowerCase() }</div>
+                <div class="route-label">${ this[labelPropName] && this[labelPropName].toLowerCase()  }</div>
                 <div class="outer-progress-bar">
-                    <div class="inner-progress-bar combined ${ this.#evalClass(this.percentCompCombined) }"></div>
-                    <div class="inner-progress-bar specific ${ this.#evalClass(this.percentCompSpecific) }"></div>
+                    <div class="inner-progress-bar ${ this.#evalClass(this[percentPropName]) }"></div>
                     <div class="progress-percent">
-                        <span class="combined-percent">${ (this.percentCompCombined * 100).toFixed(1) }%</span>
-                        <span class="specific-percent">${ (this.percentCompSpecific * 100).toFixed(1) }%</span>
+                        <span class="percent">${ (this[percentPropName] * 100).toFixed(1) }%</span>
                     </div>
                 </div>
             </div>`;
@@ -373,6 +370,7 @@ app.store = (() => {
 app.renderer = (() => {
     class Renderer {
         #rootElem;
+        #dataSet;
     
         constructor() { }
     
@@ -380,19 +378,21 @@ app.renderer = (() => {
             this.#rootElem = document.querySelector(className);
             return this;
         }
-    
-        render(data) {
+
+        init(parentIdentifier, dataSet) {
+            this.#rootElem = document.querySelector(parentIdentifier);
+            this.#dataSet = dataSet;
+            return this;
+        }
+
+        render(callback) {
             this.#rootElem.innerHTML = '';
             document.getElementById('fileInput').value = '';
 
             return new Promise((resolved, rejected) => {
-                let html = '';
-
-                for(let x of data) {
-                    html += x.template();
+                for(let obj of this.#dataSet) {
+                    this.#rootElem.innerHTML += callback(obj);
                 }
-
-                this.#rootElem.innerHTML = html;
                 setTimeout(() => resolved(), 100);
             });
         }
@@ -405,13 +405,10 @@ app.renderer = (() => {
                     routeElem.addEventListener('click', function() {
                         callback(this);
                     });
-                    innerProgressBar = routeElem.getElementsByClassName('inner-progress-bar')[0];
-                    percent = routeElem.querySelector('.combined-percent').innerHTML;
-                } else {
-                    innerProgressBar = routeElem.getElementsByClassName('inner-progress-bar')[1];
-                    percent = routeElem.querySelector('.specific-percent').innerHTML;
                 }
 
+                percent = routeElem.querySelector('.percent').innerHTML;
+                innerProgressBar = routeElem.querySelector('.inner-progress-bar');
                 innerProgressBar.style.width = percent;
             }
         }
@@ -434,27 +431,32 @@ app.modal.init([
 app.routeDetailModal.closeBtn.init([
     () => app.modal.hide(),
     () => app.routeDetailModal.hide()
-])
+]);
 
 app.run(data => {
     app.store.load(data);
     app.store.sortByOrderNum();
+
     const initialDataset = app.store.getBoroughsWithUniqueRoutes();
 
-    app.renderer.root('.borough-container')
-        .render( initialDataset ).then(() => {
-
-            // display selected route details
+    app.renderer
+        .init('.borough-container', initialDataset)
+        .render(obj => obj.template()).then(() => {
             app.renderer.afterRender(elem => {
                 const routes = app.store.getRoutesByName(elem.id);
-                app.renderer.root('.route-detail').render( routes );
-                app.renderer.afterRender();
 
-                app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
-                app.routeDetailModal.show();
-                app.modal.show();
+                app.renderer
+                    .init('.route-detail', routes)
+                    .render(obj => obj.template('equipmentId', 'percentCompSpecific'))
+                    .then(() => {
+
+                        app.renderer.afterRender();
+                        app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
+                        app.routeDetailModal.show();
+                        app.modal.show();
+                    });
             });
-    });
+        });
 
     app.uploadBtn.hide();
     app.modal.hide();

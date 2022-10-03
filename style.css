@@ -65,6 +65,7 @@ section.toolbar-container div.tool-list div.tool:hover {
 .mid-green-bg { background-color: #00ff00 !important; }
 .dark-green-bg { background-color: #32cd32 !important; }
 
+
 .logo-bg {
     position: fixed;
     top: 0;
@@ -130,6 +131,17 @@ div.borough div.borough-label {
 div.borough div.borough-label > div,
 div.borough div.route-container { padding: 1rem; }
 
+
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
+/* consider removing wrapping for the styles below */
 div.route {
     position: relative;
     display: inline-block; 
@@ -144,14 +156,11 @@ div.route {
     cursor: pointer;
     margin: 2.5rem 0;
 }
-.borough-container .borough div.route .equipment-label,
-.borough-container .borough div.route .specific-percent,
-.route-detail-container .route-detail .combined-percent,
-.route-detail-container .route-detail div.route .route-label { display: none; }
-.route-detail-container .route-detail div.route { width: 100%; margin: 1.5rem 0; }
 
-div.route div.route-label,
-div.route div.equipment-label { font-size: 1.2rem; text-transform: capitalize; font-weight: bold; }
+.route-detail-container .route-detail div.route { width: 100%; margin: 1.5rem 0; }
+.route-detail-container .route-detail div.route div.route-label::before { content: "Equipment: "; }
+div.route div.route-label { font-size: 1.2rem; text-transform: capitalize; font-weight: bold; }
+
 div.route div.outer-progress-bar,
 div.route div.outer-progress-bar .inner-progress-bar { border-radius: 20px; }
 
