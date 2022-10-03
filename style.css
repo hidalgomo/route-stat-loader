@@ -131,17 +131,6 @@ div.borough div.borough-label {
 div.borough div.borough-label > div,
 div.borough div.route-container { padding: 1rem; }
 
-
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
-/* consider removing wrapping for the styles below */
 div.route {
     position: relative;
     display: inline-block; 
@@ -149,7 +138,6 @@ div.route {
     min-height: 3rem;
 }
 
-/* CONTAINER SPECIFIC */
 .borough-container .borough div.route {
     width: 46%;
     margin-right: 1rem !important;

@@ -118,9 +118,7 @@ class Route {
                 <div class="route-label">${ this[labelPropName] && this[labelPropName].toLowerCase()  }</div>
                 <div class="outer-progress-bar">
                     <div class="inner-progress-bar ${ this.#evalClass(this[percentPropName]) }"></div>
-                    <div class="progress-percent">
-                        <span class="percent">${ (this[percentPropName] * 100).toFixed(1) }%</span>
-                    </div>
+                    <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
                 </div>
             </div>`;
     }
@@ -397,6 +395,8 @@ app.renderer = (() => {
             });
         }
     
+        // Violates the single responsibility principle
+        // This method is performing two things
         afterRender(callback) {
             let innerProgressBar, percent;
 
@@ -407,7 +407,7 @@ app.renderer = (() => {
                     });
                 }
 
-                percent = routeElem.querySelector('.percent').innerHTML;
+                percent = routeElem.querySelector('.progress-percent').innerHTML;
                 innerProgressBar = routeElem.querySelector('.inner-progress-bar');
                 innerProgressBar.style.width = percent;
             }
