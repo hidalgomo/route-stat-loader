@@ -371,11 +371,6 @@ app.renderer = (() => {
         #dataSet;
     
         constructor() { }
-    
-        root(className) {
-            this.#rootElem = document.querySelector(className);
-            return this;
-        }
 
         init(parentIdentifier, dataSet) {
             this.#rootElem = document.querySelector(parentIdentifier);

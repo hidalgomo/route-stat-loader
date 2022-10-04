@@ -1,0 +1,47 @@
+{
+    "hashedFileName": "...",
+    "startStamp": {
+        "date": "1/7/2022",
+        "time": 700
+    },
+    "endStamp": {
+        "date": "1/7/2022",
+        "time": 1608
+    },
+    "routes": [
+        {
+            "borough": "BQ",
+            "tier": "H1",
+            "route_name": "BQ_99_RH_H101",
+            "equipment_id": "29FG204",
+            "gps_specific": 23377.48433,
+            "gps_combined": 338982.8909,
+            "route_len": 364575.3257,
+            "pctcomp_specific": 0.064122508,
+            "pctcomp_combined": 0.929802066
+
+        },
+        {
+            "borough": "BQ",
+            "tier": "H1",
+            "route_name": "BQ_99_RH_H101",
+            "equipment_id": "29FG112",
+            "gps_specific": 87894.78061,
+            "gps_combined": 338982.8909,
+            "route_len": 364575.3257,
+            "pctcomp_specific": 0.241088122,
+            "pctcomp_combined": 0.929802066
+        },
+        {
+            "borough": "BQ",
+            "tier": "H1",
+            "route_name": "BQ_99_RH_H101",
+            "equipment_id": "29FG204",
+            "gps_specific": 23377.48433,
+            "gps_combined": 338982.8909,
+            "route_len": 364575.3257,
+            "pctcomp_specific": 0.064122508,
+            "pctcomp_combined": 0.929802066
+        }
+    ]
+}
