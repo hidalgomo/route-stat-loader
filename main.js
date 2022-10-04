@@ -428,31 +428,70 @@ app.routeDetailModal.closeBtn.init([
     () => app.routeDetailModal.hide()
 ]);
 
-app.run(data => {
-    app.store.load(data);
-    app.store.sortByOrderNum();
+// app.run(data => {
+//     app.store.load(data);
+//     app.store.sortByOrderNum();
 
-    const initialDataset = app.store.getBoroughsWithUniqueRoutes();
+//     const initialDataset = app.store.getBoroughsWithUniqueRoutes();
 
-    app.renderer
-        .init('.borough-container', initialDataset)
-        .render(obj => obj.template()).then(() => {
-            app.renderer.afterRender(elem => {
-                const routes = app.store.getRoutesByName(elem.id);
+//     app.renderer
+//         .init('.borough-container', initialDataset)
+//         .render(obj => obj.template()).then(() => {
+//             app.renderer.afterRender(elem => {
+//                 const routes = app.store.getRoutesByName(elem.id);
 
-                app.renderer
-                    .init('.route-detail', routes)
-                    .render(obj => obj.template('equipmentId', 'percentCompSpecific'))
-                    .then(() => {
+//                 app.renderer
+//                     .init('.route-detail', routes)
+//                     .render(obj => obj.template('equipmentId', 'percentCompSpecific'))
+//                     .then(() => {
 
-                        app.renderer.afterRender();
-                        app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
-                        app.routeDetailModal.show();
-                        app.modal.show();
-                    });
+//                         app.renderer.afterRender();
+//                         app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
+//                         app.routeDetailModal.show();
+//                         app.modal.show();
+//                     });
+//             });
+//         });
+
+//     app.uploadBtn.hide();
+//     app.modal.hide();
+// });
+
+app.run2 = (callback) => {
+    window.onload = () => {
+        callback();
+    };
+};
+
+app.httpHandler = (() => {
+    class HttpHandler {
+        #http = new XMLHttpRequest();
+
+        constructor() { }
+
+        get(url) {
+            const that = this.#http;
+            return new Promise((resolved, rejected) => {
+                that.open('GET', url);
+                that.setRequestHeader('Cache-Control', 'no-cache');
+                that.send();
+
+                that.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        resolved(JSON.parse(that.responseText));
+                    }
+                }
             });
-        });
+        }
+    }
 
-    app.uploadBtn.hide();
-    app.modal.hide();
+    return new HttpHandler();
+})();
+
+app.run2(() => {
+    app.httpHandler.get('./json_dataset.json').then((response) => {
+
+        console.log(response);
+
+    });
 });
