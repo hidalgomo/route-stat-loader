@@ -375,12 +375,15 @@ app.httpHandler = (() => {
     return new HttpHandler();
 })();
 
-app.startUploadBtn.init([ () => app.modal.show() ]);
-app.modal.init([ () => app.routeDetailModal.hide() ]);
+app.startUploadBtn.init([
+    () => app.modal.show()]);
+
+app.modal.init([
+    () => app.routeDetailModal.hide()]);
+
 app.routeDetailModal.closeBtn.init([
     () => app.modal.hide(),
-    () => app.routeDetailModal.hide()
-]);
+    () => app.routeDetailModal.hide()]);
 
 app.run(() => {
 
