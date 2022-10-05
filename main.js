@@ -82,7 +82,22 @@ const routeMapping = {
     SI_99_RH_H104: 'WEST SHORE EXPRESSWAY'
 };
 
-function Route(route) {
+const app = (() => {
+    class App {
+        constructor() { }
+
+        run(callback) {
+            // run on window load
+            window.onload = () => {
+                callback();
+            };
+        }
+    }
+
+    return new App();
+})();
+
+app.Route = function(route) {
     Object.assign(this, route);
     this.fullName = routeMapping[this.route_name];
 
@@ -112,9 +127,9 @@ function Route(route) {
                 </div>
             </div>`;
     }
-}
+};
 
-function Borough(boroughShortName) {
+app.Borough = function(boroughShortName) {
     this.shortName = boroughShortName;
     this.fullName = boroughMapping[boroughShortName] && boroughMapping[boroughShortName].name;
     this.routes = [];
@@ -133,29 +148,14 @@ function Borough(boroughShortName) {
                 <div class="route-container">${ routeHtml }</div>
             </div>`;
     }
-}
-
-const app = (() => {
-    class App {
-        constructor() { }
-
-        run(callback) {
-            // run on window load
-            window.onload = () => {
-                callback();
-            };
-        }
-    }
-
-    return new App();
-})();
+};
 
 app.factory = (() => {
     class Factory {
-        create(className, options) {
+        create(className, parameters) {
             // There is minor pollution of the global scope regarding the below code.
             // A namespace is needed to avoid polluting the global scope and possible code re-structuring.
-            return new window[className](options);
+            return new app[className](parameters);
         }
     }
 
