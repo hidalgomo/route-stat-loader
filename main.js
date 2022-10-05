@@ -82,8 +82,11 @@ const routeMapping = {
     SI_99_RH_H104: 'WEST SHORE EXPRESSWAY'
 };
 
-class Route {
-    #evalClass(percent) {
+function Route(route) {
+    Object.assign(this, route);
+    this.fullName = routeMapping[this.route_name];
+
+    var evalClass = (percent) => {
         const calcPercent =  Math.abs(percent * 100);
 
         if (calcPercent < 50) {
@@ -99,31 +102,24 @@ class Route {
         }
     }
 
-    constructor(route) {
-        Object.assign(this, route);
-        this.fullName = routeMapping[this.route_name];
-    }
-
-    template(labelPropName = 'fullName', percentPropName = 'pctcomp_combined') {
+    this.template = (labelPropName = 'fullName', percentPropName = 'pctcomp_combined') => {
         return `
             <div class="route" id="${ this.route_name }">
                 <div class="route-label">${ this[labelPropName] && this[labelPropName].toLowerCase()  }</div>
                 <div class="outer-progress-bar">
-                    <div class="inner-progress-bar ${ this.#evalClass(this[percentPropName]) }"></div>
+                    <div class="inner-progress-bar ${ evalClass(this[percentPropName]) }"></div>
                     <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
                 </div>
             </div>`;
     }
 }
 
-class Borough {
-    constructor(boroughShortName) {
-        this.shortName = boroughShortName;
-        this.fullName = boroughMapping[boroughShortName] && boroughMapping[boroughShortName].name;
-        this.routes = [];
-    }
+function Borough(boroughShortName) {
+    this.shortName = boroughShortName;
+    this.fullName = boroughMapping[boroughShortName] && boroughMapping[boroughShortName].name;
+    this.routes = [];
 
-    template() {
+    this.template = () => {
         let routeHtml = '';
         for (let route of this.routes) {
             routeHtml += route.template();
@@ -152,6 +148,18 @@ const app = (() => {
     }
 
     return new App();
+})();
+
+app.factory = (() => {
+    class Factory {
+        create(className, options) {
+            // There is minor pollution of the global scope regarding the below code.
+            // A namespace is needed to avoid polluting the global scope and possible code re-structuring.
+            return new window[className](options);
+        }
+    }
+
+    return new Factory();
 })();
  
 app.modal = (() => {
@@ -244,6 +252,7 @@ app.routeDetailModal.closeBtn = (() => {
 
 app.store = (() => {
     class Store {
+        #factory;
         #boroughs = [];
         #routes = [];
 
@@ -252,14 +261,22 @@ app.store = (() => {
         }
 
         #loadBoroughs(uniqueBoroughNames) {
-            return uniqueBoroughNames.map(boroughName => new Borough(boroughName));
+            // Instantiating a new object here violates the Dependency Inversion Principles
+            // return uniqueBoroughNames.map(boroughShortName => new Borough(boroughShortName));
+            // complies with dipendency inversion principle
+            return uniqueBoroughNames.map(boroughShortName => this.#factory.create('Borough', boroughShortName));
         }
 
         #loadRoutes(routes) {
-            return routes.map(route => new Route(route));
+            // Instantiating a new object here violates the Dependency Inversion Principles
+            // return routes.map(route => new Route(route));
+            // complies with dipendency inversion principle
+             return routes.map(route => this.#factory.create('Route', route));
         }
 
-        constructor() {}
+        constructor(factory) {
+            this.#factory = factory;
+        }
 
         load(data) {
             this.#boroughs = this.#loadBoroughs(this.#extractUniqueBoroughNamesFromRoutes(data.routes));
@@ -279,6 +296,15 @@ app.store = (() => {
         getBoroughsWithUniqueRoutes() {
             const uniqueRoutes = [];
             const uniqueRouteNames = new Set();
+
+            // currently i am looping three times
+            // 1. to filter out all unique routes
+            // 2. through each borough
+            // 3. to filter routes based on borough name
+
+            // alternative
+            // 1. loop through each route
+            // 
 
             for(let route of this.#routes) {
                 if (uniqueRouteNames.has(route.route_name)) {
@@ -301,7 +327,8 @@ app.store = (() => {
         }
     }
 
-    return new Store();
+    // Dependency injection of the factory object
+    return new Store(app.factory);
 })();
 
 app.renderer = (() => {
@@ -397,19 +424,23 @@ app.run(() => {
         
         app.renderer
             .init('.borough-container', initialDataset)
-            .render(obj => obj.template()).then(() => {
-                app.renderer.afterRender(elem => {
-                    const routes = app.store.getRoutesByName(elem.id);
+            .render(obj => obj.template())
+            .then(() => {
+                
+                app.renderer
+                    .afterRender(elem => {
 
-                    app.renderer
-                        .init('.route-detail', routes)
-                        .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
-                        .then(() => {
-                            app.renderer.afterRender();
-                            app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
-                            app.routeDetailModal.show();
-                            app.modal.show();
-                    });
+                        const routes = app.store.getRoutesByName(elem.id);
+
+                        app.renderer
+                            .init('.route-detail', routes)
+                            .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
+                            .then(() => {
+                                app.renderer.afterRender();
+                                app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
+                                app.routeDetailModal.show();
+                                app.modal.show();
+                        });
                 });
         });
     });
