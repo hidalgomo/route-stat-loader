@@ -45,10 +45,6 @@ class Displayer extends Artifact {
     }
 }
 
-const temp = new Displayer();
-
-temp._show();
-
 class Slider extends Artifact {
     constructor(element) {
         super(element);
