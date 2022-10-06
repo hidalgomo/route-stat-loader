@@ -6,8 +6,8 @@ class Artifact {
 
     /**
      * 
-     * @param {[Element]} element stores DOM element for sub-class to utilize. This property cannot
-     * be modified once it is set (non-writtable). 
+     * @param {[Element]} element stores a DOM element for sub-classes to utilize. This property
+     * cannot be modified once it is set (non-writable).
      */
     constructor(element) {
         if (this.constructor === Displayer) {
