@@ -1,4 +1,14 @@
+/**
+ * The Artifact class is a non-instantiable (abstract) class that provides minimal reusability for
+ * the parameters passed via the extended constructor.
+ */
 class Artifact {
+
+    /**
+     * 
+     * @param {[Element]} element stores DOM element for sub-class to utilize. This property cannot
+     * be modified once it is set (non-writtable). 
+     */
     constructor(element) {
         if (this.constructor === Displayer) {
             throw new Error('Abstract class cannot be instantiated.');
@@ -12,7 +22,7 @@ class Artifact {
 }
 
 /**
- * The class is uninstatiable (abstract) and provides reusability to sub-classes whose focus
+ * The Displayer class is uninstatiable (abstract) and provides reusability to sub-classes whose focus
  * is either hiding or showing the specified HTML element.
  */
 class Displayer extends Artifact {
