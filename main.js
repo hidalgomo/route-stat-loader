@@ -11,7 +11,15 @@ class Artifact {
     }
 }
 
+/**
+ * The class is uninstatiable (abstract) and provides reusability to sub-classes whose focus
+ * is either hiding or showing the specified HTML element.
+ */
 class Displayer extends Artifact {
+
+    /**
+     * @param { [Element] } element stores DOM element that will either be hidden or shown.
+     */
     constructor(element) {
         super(element);
 
@@ -20,10 +28,18 @@ class Displayer extends Artifact {
         }
     }
 
+    /**
+     * Thi method performs a class removal of the specified element. The method removes
+     * a class name that holds styles such as display none in order to hide the element.
+     */
     _show() { 
         this.element.classList.remove('display-none');
     }
 
+    /**
+     * This method performs a class addition of the specified element. The method adds
+     * a class name that holds styles such as display none in order to hide the element.
+     */
     _hide() {
         this.element.classList.add('display-none');
     }
@@ -261,16 +277,10 @@ app.store = (() => {
         }
 
         #loadBoroughs(uniqueBoroughNames) {
-            // Instantiating a new object here violates the Dependency Inversion Principles
-            // return uniqueBoroughNames.map(boroughShortName => new Borough(boroughShortName));
-            // complies with dipendency inversion principle
             return uniqueBoroughNames.map(boroughShortName => this.#factory.create('Borough', boroughShortName));
         }
 
         #loadRoutes(routes) {
-            // Instantiating a new object here violates the Dependency Inversion Principles
-            // return routes.map(route => new Route(route));
-            // complies with dipendency inversion principle
              return routes.map(route => this.#factory.create('Route', route));
         }
 
