@@ -393,7 +393,12 @@ app.httpHandler = (() => {
 
         constructor() { }
 
-        get(url, parameters) {
+        getParameters() {
+            let parameters = window.location.hash.substring(1);
+            return `?${ parameters }`;
+        }
+
+        get(url) {
             const that = this.#http;
             return new Promise((resolved, rejected) => {
                 that.open('GET', url);
@@ -423,10 +428,12 @@ app.routeDetailModal.closeBtn.init([
     () => app.routeDetailModal.hide()]);
 
 app.run(() => {
+    // Example: http://ip_or_domainName:port/
+    const domain = './json_dataset.json';
+    // do not change
+    const apiUri = domain + app.httpHandler.getParameters();
 
-    const apiUri = 'http://10.155.228.77:5007/visualize_highways?hashed_assignment=dec3d836e9ff0cd3193602193b541185&hashed_timeframe=354c45fc97ff559b6601a0abe07332b4';
-
-    app.httpHandler.get( apiUri, {  } ).then((responseData) => {
+    app.httpHandler.get( apiUri ).then((responseData) => {
         
         app.store.load( responseData );
         app.store.sortByOrderNum();
