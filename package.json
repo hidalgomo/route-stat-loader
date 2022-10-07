@@ -1,0 +1,23 @@
+{
+  "name": "route-stat-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hidalgomo/route-stat-loader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hidalgomo/route-stat-loader/issues"
+  },
+  "homepage": "https://github.com/hidalgomo/route-stat-loader#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.11"
+  }
+}
