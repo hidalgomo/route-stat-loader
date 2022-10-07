@@ -23,7 +23,7 @@ class Artifact {
 
 /**
  * The Displayer class is uninstatiable (abstract) class that provides reusability to sub-classes whose focus
- * is either hiding or showing the specified HTML element. The functionality has no animation.
+ * is either hiding (set display to none) or showing the specified HTML element.
  */
 class Displayer extends Artifact {
 
