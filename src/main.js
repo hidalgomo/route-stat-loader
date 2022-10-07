@@ -439,7 +439,7 @@ app.routeDetailModal.closeBtn.init([
 
 app.run(() => {
     // Example: http://ip_or_domainName:port/
-    const domain = './json_dataset.json';
+    const domain = 'http://10.155.228.77:5007/visualize_highways?hashed_assignment=dec3d836e9ff0cd3193602193b541185&hashed_timeframe=354c45fc97ff559b6601a0abe07332b4';
     // do not change
     const apiUri = domain + app.httpHandler.getParameters();
 
