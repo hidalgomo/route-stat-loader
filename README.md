@@ -9,15 +9,15 @@ The Observer pattern is used when implementing events that take action on other 
 Each element is in its own class/object that initializes the event for that element. The class also makes available properties to hold functions that can be executed within the event's callback.
 
 ```javascript
-// before
+// Before implementing observer pattern
 element.addEventListener('event', () => {
     elementX.style.width = 100;
     elementY.style.height = 300;
 }, false);
 
-// after
-element.addEventListener('event', () => {
-    initializedExecutables.map(exec =>  exec());
+// After implementing observer pattern
+element.addEventListener('event', function() => {
+    initializedExecutables.map(exec =>  exec(this));
 }, false);
 ```
 
