@@ -1,4 +1,12 @@
 /**
+ * The Observer pattern is used when implementing events that take action on other parts
+ * of the application, the DOM. This pattern follows the SOLID principles by keeping code flexible
+ * and extendable.
+ */
+
+
+
+/**
  * The Artifact class is a non-instantiable (abstract) class that provides minimal reusability for
  * the parameters passed via the extended constructor.
  */
@@ -317,15 +325,6 @@ app.store = (() => {
             const uniqueRoutes = [];
             const uniqueRouteNames = new Set();
 
-            // currently i am looping three times
-            // 1. to filter out all unique routes
-            // 2. through each borough
-            // 3. to filter routes based on borough name
-
-            // alternative
-            // 1. loop through each route
-            // 
-
             for(let route of this.#routes) {
                 if (uniqueRouteNames.has(route.route_name)) {
                     continue;
@@ -439,7 +438,7 @@ app.routeDetailModal.closeBtn.init([
 
 app.run(() => {
     // Example: http://ip_or_domainName:port/
-    const domain = 'http://10.155.228.77:5007/visualize_highways?hashed_assignment=dec3d836e9ff0cd3193602193b541185&hashed_timeframe=354c45fc97ff559b6601a0abe07332b4';
+    const domain = './assets/json_dataset.json';
     // do not change
     const apiUri = domain + app.httpHandler.getParameters();
 

@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/hidalgomo/route-stat-loader#readme",
   "devDependencies": {
-    "jsdoc": "^3.6.11"
+    "jasmine-core": "^4.4.0",
+    "jsdoc": "^3.6.11",
+    "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-jasmine": "^5.1.0"
   }
 }
