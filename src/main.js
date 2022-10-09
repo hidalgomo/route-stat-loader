@@ -1,12 +1,4 @@
 /**
- * The Observer pattern is used when implementing events that take action on other parts
- * of the application, the DOM. This pattern follows the SOLID principles by keeping code flexible
- * and extendable.
- */
-
-
-
-/**
  * The Artifact class is a non-instantiable (abstract) class that provides minimal reusability for
  * the parameters passed via the extended constructor.
  */
