@@ -1,4 +1,14 @@
+/**
+ * The Artifact class is a non-instantiable (abstract) class that provides minimal reusability for
+ * the parameters passed via the extended constructor.
+ */
 class Artifact {
+
+    /**
+     * 
+     * @param {[Element]} element stores a DOM element for sub-classes to utilize. This property
+     * cannot be modified once it is set (non-writable).
+     */
     constructor(element) {
         if (this.constructor === Displayer) {
             throw new Error('Abstract class cannot be instantiated.');
@@ -11,7 +21,15 @@ class Artifact {
     }
 }
 
+/**
+ * The Displayer class is uninstatiable (abstract) class that provides reusability to sub-classes whose focus
+ * is either hiding (set display to none) or showing the specified HTML element.
+ */
 class Displayer extends Artifact {
+
+    /**
+     * @param { [Element] } element stores DOM element that will either be hidden or shown.
+     */
     constructor(element) {
         super(element);
 
@@ -20,10 +38,18 @@ class Displayer extends Artifact {
         }
     }
 
+    /**
+     * Thi method performs a class removal of the specified element. The method removes
+     * a class name that holds styles such as display none in order to hide the element.
+     */
     _show() { 
         this.element.classList.remove('display-none');
     }
 
+    /**
+     * This method performs a class addition of the specified element. The method adds
+     * a class name that holds styles such as display none in order to hide the element.
+     */
     _hide() {
         this.element.classList.add('display-none');
     }
@@ -82,8 +108,26 @@ const routeMapping = {
     SI_99_RH_H104: 'WEST SHORE EXPRESSWAY'
 };
 
-class Route {
-    #evalClass(percent) {
+const app = (() => {
+    class App {
+        constructor() { }
+
+        run(callback) {
+            // run on window load
+            window.onload = () => {
+                callback();
+            };
+        }
+    }
+
+    return new App();
+})();
+
+app.Route = function(route) {
+    Object.assign(this, route);
+    this.fullName = routeMapping[this.route_name];
+
+    var evalClass = (percent) => {
         const calcPercent =  Math.abs(percent * 100);
 
         if (calcPercent < 50) {
@@ -99,39 +143,24 @@ class Route {
         }
     }
 
-    constructor(routeData) {
-        this.borough =              routeData[0];
-        this.tier =                 routeData[1];
-        this.shortName =            routeData[2];
-        this.equipmentId =          routeData[3];
-        this.gpsSpecific =          parseFloat(routeData[4], 10);
-        this.gpsCombined =          parseFloat(routeData[5], 10);
-        this.routeLength =          parseFloat(routeData[6], 10);
-        this.percentCompSpecific =  parseFloat(routeData[7], 10);
-        this.percentCompCombined =  parseFloat(routeData[8], 10);
-        this.fullName = routeMapping[this.shortName];
-    }
-
-    template(labelPropName = 'fullName', percentPropName = 'percentCompCombined') {
+    this.template = (labelPropName = 'fullName', percentPropName = 'pctcomp_combined') => {
         return `
-            <div class="route" id="${ this.shortName }">
+            <div class="route" id="${ this.route_name }">
                 <div class="route-label">${ this[labelPropName] && this[labelPropName].toLowerCase()  }</div>
                 <div class="outer-progress-bar">
-                    <div class="inner-progress-bar ${ this.#evalClass(this[percentPropName]) }"></div>
+                    <div class="inner-progress-bar ${ evalClass(this[percentPropName]) }"></div>
                     <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
                 </div>
             </div>`;
     }
-}
+};
 
-class Borough {
-    constructor(boroughShortName) {
-        this.shortName = boroughShortName;
-        this.fullName = boroughMapping[boroughShortName] && boroughMapping[boroughShortName].name;
-        this.routes = [];
-    }
+app.Borough = function(boroughShortName) {
+    this.shortName = boroughShortName;
+    this.fullName = boroughMapping[boroughShortName] && boroughMapping[boroughShortName].name;
+    this.routes = [];
 
-    template() {
+    this.template = () => {
         let routeHtml = '';
         for (let route of this.routes) {
             routeHtml += route.template();
@@ -145,44 +174,18 @@ class Borough {
                 <div class="route-container">${ routeHtml }</div>
             </div>`;
     }
-}
+};
 
-const app = (() => {
-    class App {
-        #Init() {
-            const that = this;
-            const fileElem = document.getElementById('fileInput');
-            const fileReader = new FileReader();
-            fileElem.addEventListener('change', function () {
-                if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-                    return;
-                }
-                const file = fileElem.files[0];
-                fileReader.readAsText( file );
-            }, false);
-
-            fileReader.onload = function() {
-                const data = fileReader.result.split('\n');
-                data.shift();
-                that.callback( data );
-            }
-        }
-
-        constructor() {
-            this.callback;
-            // Certainly the implmentation of the Init method could have been placed here in the construtor.
-            // However, if its ever needed to switch the Init method for anothe form of implmetation it
-            // can easly be done without having to change anything from the Init method. This follows
-            // the OCP (OPen Close Principle) SOLID standards.
-            this.#Init();
-        }
-
-        run(callback) {
-            this.callback = callback;
+app.factory = (() => {
+    class Factory {
+        create(className, parameters) {
+            // There is minor pollution of the global scope regarding the below code.
+            // A namespace is needed to avoid polluting the global scope and possible code re-structuring.
+            return new app[className](parameters);
         }
     }
 
-    return new App();
+    return new Factory();
 })();
  
 app.modal = (() => {
@@ -210,25 +213,6 @@ app.modal = (() => {
     }
 
     return new Modal();
-})();
-
-app.uploadBtn = (() => {
-    class UploadBtn extends Displayer {
-        constructor() {
-            super(document.querySelector('.upload-file-btn'));
-            this.element.addEventListener('click', () => fileInput.click(), false);
-        }
-
-        show() {
-            this._show();
-        }
-
-        hide() {
-            this._hide()
-        }
-    }
-
-    return new UploadBtn();
 })();
 
 app.startUploadBtn = (() => {
@@ -294,39 +278,29 @@ app.routeDetailModal.closeBtn = (() => {
 
 app.store = (() => {
     class Store {
+        #factory;
         #boroughs = [];
         #routes = [];
 
-        // Stores unique borough into private array property
-        #loadBoroughs(data) {
-            const uniqueBoroughShortNames = new Set(data.map(x => x.substring(0, 2)));
-
-            for(let dataItem of [...uniqueBoroughShortNames]) {
-                if (!dataItem) {
-                    continue;
-                }
-
-                this.#boroughs.push(new Borough(dataItem));
-            }
+        #extractUniqueBoroughNamesFromRoutes(routes) {
+            return [...new Set(routes.map(x => x.borough))];
         }
 
-        #loadRoutes(data) {
-            for (let dataItem of data) {
-                if (!dataItem) {
-                    continue;
-                }
-
-                this.#routes.push(new Route(dataItem.split(',')));
-            }
+        #loadBoroughs(uniqueBoroughNames) {
+            return uniqueBoroughNames.map(boroughShortName => this.#factory.create('Borough', boroughShortName));
         }
 
-        constructor() {}
+        #loadRoutes(routes) {
+             return routes.map(route => this.#factory.create('Route', route));
+        }
+
+        constructor(factory) {
+            this.#factory = factory;
+        }
 
         load(data) {
-            this.#boroughs = [];
-            this.#routes = [];
-            this.#loadBoroughs( data );
-            this.#loadRoutes( data );
+            this.#boroughs = this.#loadBoroughs(this.#extractUniqueBoroughNamesFromRoutes(data.routes));
+            this.#routes = this.#loadRoutes(data.routes);
         }
 
         sortByOrderNum() {
@@ -341,13 +315,15 @@ app.store = (() => {
 
         getBoroughsWithUniqueRoutes() {
             const uniqueRoutes = [];
-            const addedRouteName = new Set();
+            const uniqueRouteNames = new Set();
 
             for(let route of this.#routes) {
-                if (!addedRouteName.has(route.shortName)) {
-                    uniqueRoutes.push(route);
-                    addedRouteName.add(route.shortName);
+                if (uniqueRouteNames.has(route.route_name)) {
+                    continue;
                 }
+
+                uniqueRoutes.push(route);
+                uniqueRouteNames.add(route.route_name);
             }
 
             for (let borough of this.#boroughs) {
@@ -357,12 +333,13 @@ app.store = (() => {
             return this.#boroughs;
         }
 
-        getRoutesByName(name) {
-            return this.#routes.filter(x => x.shortName === name);
+        getRoutesByName(routeName) {
+            return this.#routes.filter(x => x.route_name === routeName);
         }
     }
 
-    return new Store();
+    // Dependency injection of the factory object
+    return new Store(app.factory);
 })();
 
 app.renderer = (() => {
@@ -380,7 +357,6 @@ app.renderer = (() => {
 
         render(callback) {
             this.#rootElem.innerHTML = '';
-            document.getElementById('fileInput').value = '';
 
             return new Promise((resolved, rejected) => {
                 for(let obj of this.#dataSet) {
@@ -392,6 +368,9 @@ app.renderer = (() => {
     
         // Violates the single responsibility principle
         // This method is performing two things
+
+        // possible sulution to decouple further would be to seperate
+        // renderer from element modifier (modifier includes event adding)
         afterRender(callback) {
             let innerProgressBar, percent;
 
@@ -412,47 +391,78 @@ app.renderer = (() => {
     return new Renderer();
 })();
 
+app.httpHandler = (() => {
+    class HttpHandler {
+        #http = new XMLHttpRequest();
+
+        constructor() { }
+
+        getParameters() {
+            let parameters = window.location.hash.substring(1);
+            return `?${ parameters }`;
+        }
+
+        get(url) {
+            const that = this.#http;
+            return new Promise((resolved, rejected) => {
+                that.open('GET', url);
+                that.setRequestHeader('Cache-Control', 'no-cache');
+                that.send();
+
+                that.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        resolved(JSON.parse(that.responseText));
+                    }
+                }
+            });
+        }
+    }
+
+    return new HttpHandler();
+})();
+
 app.startUploadBtn.init([
-    () => app.modal.show(),
-    () => app.uploadBtn.show(),
-    () => app.uploadBtn.element.click()
-]);
+    () => app.modal.show()]);
 
 app.modal.init([
-    () => app.uploadBtn.hide(),
-    () => app.routeDetailModal.hide()
-]);
+    () => app.routeDetailModal.hide()]);
 
 app.routeDetailModal.closeBtn.init([
     () => app.modal.hide(),
-    () => app.routeDetailModal.hide()
-]);
+    () => app.routeDetailModal.hide()]);
 
-app.run(data => {
-    app.store.load(data);
-    app.store.sortByOrderNum();
+app.run(() => {
+    // Example: http://ip_or_domainName:port/
+    const domain = './assets/json_dataset.json';
+    // do not change
+    const apiUri = domain + app.httpHandler.getParameters();
 
-    const initialDataset = app.store.getBoroughsWithUniqueRoutes();
-
-    app.renderer
-        .init('.borough-container', initialDataset)
-        .render(obj => obj.template()).then(() => {
-            app.renderer.afterRender(elem => {
-                const routes = app.store.getRoutesByName(elem.id);
-
+    app.httpHandler.get( apiUri ).then((responseData) => {
+        
+        app.store.load( responseData );
+        app.store.sortByOrderNum();
+        const initialDataset = app.store.getBoroughsWithUniqueRoutes();
+        
+        app.renderer
+            .init('.borough-container', initialDataset)
+            .render(obj => obj.template())
+            .then(() => {
+                
                 app.renderer
-                    .init('.route-detail', routes)
-                    .render(obj => obj.template('equipmentId', 'percentCompSpecific'))
-                    .then(() => {
+                    .afterRender(elem => {
 
-                        app.renderer.afterRender();
-                        app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
-                        app.routeDetailModal.show();
-                        app.modal.show();
-                    });
-            });
+                        const routes = app.store.getRoutesByName(elem.id);
+
+                        app.renderer
+                            .init('.route-detail', routes)
+                            .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
+                            .then(() => {
+                                app.renderer.afterRender();
+                                app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
+                                app.routeDetailModal.show();
+                                app.modal.show();
+                        });
+                });
         });
-
-    app.uploadBtn.hide();
-    app.modal.hide();
+    });
 });
