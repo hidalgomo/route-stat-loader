@@ -1,4 +1,4 @@
-import { Artifact } from "./artifact.js";
+import { Artifact } from "./artifact";
 /**
  * The Displayer class is uninstatiable (abstract) class that provides reusability to sub-classes whose focus
  * is either hiding (set display to none) or showing the specified HTML element.

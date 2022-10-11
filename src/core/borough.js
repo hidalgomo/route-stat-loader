@@ -1,4 +1,4 @@
-import { boroughMapping } from "./mappings.js";
+import { boroughMapping } from "./mappings";
 
 export function Borough(boroughShortName) {
     this.shortName = boroughShortName;

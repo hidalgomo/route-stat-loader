@@ -1,4 +1,4 @@
-import { Artifact } from "./artifact.js";
+import { Artifact } from "./artifact";
 
 export class Slider extends Artifact {
     constructor(element) {

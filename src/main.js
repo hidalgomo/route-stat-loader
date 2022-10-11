@@ -1,8 +1,8 @@
-import { modalBg } from './modal-bg/modal-bg.js';
-import { routeDetails } from './route-details/route-details.js';
-import { store } from './core/store.js';
-import { renderer } from './core/renderer.js';
-import { httpHandler } from './core/httpHandler.js';
+import { modalBg } from './modal-bg/modal-bg';
+import { routeDetails } from './route-details/route-details';
+import { store } from './core/store';
+import { renderer } from './core/renderer';
+import { httpHandler } from './core/httpHandler';
 
 const app = (() => {
     class App {

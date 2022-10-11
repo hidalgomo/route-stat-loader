@@ -1,5 +1,5 @@
-import { Route } from "./route.js";
-import { Borough } from "./borough.js";
+import { Route } from "./route";
+import { Borough } from "./borough";
 
 class Factory {
 

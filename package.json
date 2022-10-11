@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webpack serve",
     "jsdocs": "jsdoc -c jsdoc.json",
     "test": "karma start",
     "build": "webpack --mode=production"
@@ -27,6 +28,7 @@
     "karma-coverage": "^2.2.0",
     "karma-jasmine": "^5.1.0",
     "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
   }
 }

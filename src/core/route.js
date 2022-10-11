@@ -1,4 +1,4 @@
-import { routeMapping } from "./mappings.js";
+import { routeMapping } from "./mappings";
 
 export function Route(route) {
     Object.assign(this, route);

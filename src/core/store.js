@@ -1,5 +1,5 @@
-import { boroughMapping } from './mappings.js';
-import { factory } from './factory.js';
+import { boroughMapping } from './mappings';
+import { factory } from './factory';
 
 class Store {
     #factory;
