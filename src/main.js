@@ -195,7 +195,7 @@ app.modal = (() => {
 
         constructor() {
             super(document.querySelector('.modal-bg'));
-            this.element.addEventListener('click', () => this.hide());
+            this.element && this.element.addEventListener('click', () => this.hide());
         }
 
         init(executables) {
@@ -221,7 +221,7 @@ app.startUploadBtn = (() => {
         
         constructor() {
             super(document.getElementById('startUploadBtn'));
-            this.element.addEventListener('click', () => this.executables.map(x => x()));
+            this.element && this.element.addEventListener('click', () => this.executables.map(x => x()));
         }
 
         init(executables) {
@@ -265,7 +265,7 @@ app.routeDetailModal.closeBtn = (() => {
     class RouteModalCloseBtn extends Artifact {
         constructor() {
             super(document.getElementById('closeRouteDetailBtn'));
-            this.element.addEventListener('click', () => this.executables.map(x => x()));
+            this.element && this.element.addEventListener('click', () => this.executables.map(x => x()));
         }
 
         init(executables) {
@@ -376,9 +376,7 @@ app.renderer = (() => {
 
             for(let routeElem of this.#rootElem.getElementsByClassName('route')) {
                 if (callback) {
-                    routeElem.addEventListener('click', function() {
-                        callback(this);
-                    });
+                    routeElem && routeElem.addEventListener('click', function() { callback(this); });
                 }
 
                 percent = routeElem.querySelector('.progress-percent').innerHTML;

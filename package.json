@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "jsdoc": "^3.6.11",
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
     "karma-jasmine": "^5.1.0"
   }
 }
