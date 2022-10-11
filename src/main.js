@@ -80,32 +80,32 @@ const boroughMapping = {
 };
 
 const routeMapping = {
-    BQ_99_RH_H101: 'BELT PARKWAY',
-    MB_99_RH_H101: 'BRONX RIVER PARKWAY',
-    BQ_99_RH_H102: 'BROOKLYN QUEENS EXPRESSWAY',
-    MB_99_RH_H102: 'BRUCKNER EXPRESSWAY',
-    BQ_99_RH_H103: 'CLEARVIEW EXPRESSWAY',
-    MB_99_RH_H103: 'CROSS BRONX EXPRESSWAY',
-    BQ_99_RH_H104: 'CROSS ISLAND PARKWAY',
-    SI_99_RH_H101: 'DR M L KING JR EXPRESSWAY',
-    MB_99_RH_H104: 'FRANKLIN D ROOSEVELT DRIVE',
-    BQ_99_RH_H105: 'GOWANUS EXPRESWAY',
-    BQ_99_RH_H106: 'GRAND CENTRAL PARKWAY',
-    MB_99_RH_H105: 'HARLEM RIVER DRIVE',
-    MB_99_RH_H106: 'HENRY HUDSON PARKWAY',
-    MB_99_RH_H107: 'HUTCHINSON RIVER PARKWAY',
-    BQ_99_RH_H107: 'JACKIE ROBINSON PARKWAY',
-    SI_99_RH_H102: 'KOREAN WAR VETS PARKWAY',
-    BQ_99_RH_H108: 'LONG ISLAND EXPRESSWAY',
-    MB_99_RH_H108: 'MAJOR DEEGAN EXPRESSWAY',
-    MB_99_RH_H109: 'MOSHOLU PARKWAY',
-    BQ_99_RH_H109: 'NASSAU EXPRESSWAY',
-    MB_99_RH_H110: 'PELHAM PARKWAY',
-    BQ_99_RH_H110: 'PROSPECT EXPRESSWAY',
-    MB_99_RH_H111: 'SHERIDAN BOULEVARD',
-    SI_99_RH_H103: 'STATEN ISLAND EXPRESSWAY',
-    BQ_99_RH_H111: 'VAN WYCK EXPRESSWAY',
-    SI_99_RH_H104: 'WEST SHORE EXPRESSWAY'
+    BQ_99_RH_H101: 'Belt Parkway',
+    MB_99_RH_H101: 'Bronx River Parkway',
+    BQ_99_RH_H102: 'Brooklyn Queens Expressway',
+    MB_99_RH_H102: 'Bruckner Expressway',
+    BQ_99_RH_H103: 'Clearview Expressway',
+    MB_99_RH_H103: 'Cross Bronx Expressway',
+    BQ_99_RH_H104: 'Cross Island Parkway',
+    SI_99_RH_H101: 'Dr M L King Jr Expressway',
+    MB_99_RH_H104: 'Franklin D Roosevelt Drive',
+    BQ_99_RH_H105: 'Gowanus Expressway',
+    BQ_99_RH_H106: 'Grand Central Parkway',
+    MB_99_RH_H105: 'Harlem River Drive',
+    MB_99_RH_H106: 'Henry Hudson Parkway',
+    MB_99_RH_H107: 'Hutchinson River Parkway',
+    BQ_99_RH_H107: 'Jackie Robinson Parkway',
+    SI_99_RH_H102: 'Korean War Vets Parkway',
+    BQ_99_RH_H108: 'Long Island Expressway',
+    MB_99_RH_H108: 'Major Deegan Expressway',
+    MB_99_RH_H109: 'Mosholu Parkway',
+    BQ_99_RH_H109: 'Nassau Expressway',
+    MB_99_RH_H110: 'Pelham Parkway',
+    BQ_99_RH_H110: 'Prospect Expressway',
+    MB_99_RH_H111: 'Sheridan Boulevard',
+    SI_99_RH_H103: 'Staten Island Expressway',
+    BQ_99_RH_H111: 'Van Wyck Expressway',
+    SI_99_RH_H104: 'West Shore Expressway'
 };
 
 const app = (() => {
@@ -145,8 +145,8 @@ app.Route = function(route) {
 
     this.template = (labelPropName = 'fullName', percentPropName = 'pctcomp_combined') => {
         return `
-            <div class="route" id="${ this.route_name }">
-                <div class="route-label">${ this[labelPropName] && this[labelPropName].toLowerCase()  }</div>
+            <div class="route" id="${ this.route_name }" title="${ this[labelPropName] }">
+                <div class="route-label">${ this[labelPropName] }</div>
                 <div class="outer-progress-bar">
                     <div class="inner-progress-bar ${ evalClass(this[percentPropName]) }"></div>
                     <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
@@ -355,10 +355,10 @@ app.renderer = (() => {
             return this;
         }
 
-        render(callback) {
+        async render(callback) {
             this.#rootElem.innerHTML = '';
 
-            return new Promise((resolved, rejected) => {
+            return await new Promise((resolved, rejected) => {
                 for(let obj of this.#dataSet) {
                     this.#rootElem.innerHTML += callback(obj);
                 }
