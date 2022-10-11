@@ -40,7 +40,7 @@ section.toolbar-container {
 section.toolbar-container div.brand h2 { 
     margin: 0;
     padding: 0 0 0 2rem;
-    background: url(./assets/dsny_logo.png) no-repeat center left;
+    background: url(./dsny_logo.png) no-repeat center left;
     background-size: contain;
 }
 
@@ -72,7 +72,7 @@ section.toolbar-container div.tool-list div.tool:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(./assets/dsny_logo.png) no-repeat center center;
+    background: url(./dsny_logo.png) no-repeat center center;
     opacity: .1;
     z-index: -1;
     background-size: contain;

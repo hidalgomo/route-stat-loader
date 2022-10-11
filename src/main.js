@@ -28,11 +28,11 @@ routeDetails.closeBtn.init([
 
 app.run(() => {
     // Example: http://ip_or_domainName:port/
-    const domain = './assets/json_dataset.json';
+    const domain = './json_dataset.json';
     // do not change
     const apiUri = domain + httpHandler.getParameters();
 
-    httpHandler.get( apiUri ).then((responseData) => {
+    httpHandler.getAsync( apiUri ).then((responseData) => {
         
         store.load( responseData );
         store.sortByOrderNum();

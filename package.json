@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "doc": "jsdoc -c jsdoc.json",
-    "test": "karma start"
+    "jsdocs": "jsdoc -c jsdoc.json",
+    "test": "karma start",
+    "build": "webpack --mode=production"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
-    "karma-jasmine": "^5.1.0"
+    "karma-jasmine": "^5.1.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }

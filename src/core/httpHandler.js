@@ -6,7 +6,7 @@ class HttpHandler {
         return `?${ parameters }`;
     }
 
-    async get(url) {
+    async getAsync(url) {
         return await fetch(url)
             .then(response => response.json());
     }
