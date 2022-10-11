@@ -391,8 +391,6 @@ app.renderer = (() => {
 
 app.httpHandler = (() => {
     class HttpHandler {
-        #http = new XMLHttpRequest();
-
         constructor() { }
 
         getParameters() {
@@ -400,19 +398,9 @@ app.httpHandler = (() => {
             return `?${ parameters }`;
         }
 
-        get(url) {
-            const that = this.#http;
-            return new Promise((resolved, rejected) => {
-                that.open('GET', url);
-                that.setRequestHeader('Cache-Control', 'no-cache');
-                that.send();
-
-                that.onreadystatechange = function() {
-                    if (this.readyState === 4 && this.status === 200) {
-                        resolved(JSON.parse(that.responseText));
-                    }
-                }
-            });
+        async get(url) {
+            return await fetch(url)
+                .then(response => response.json());
         }
     }
 

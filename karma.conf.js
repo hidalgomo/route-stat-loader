@@ -12,10 +12,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/index.html',
       'src/**/*.js',
-      'src/**/*spec.js',
-      { pattern: 'src/assets/json_dataset.json', watched: false, included: false, served: true }
+      'src/**/*spec.js'
     ],
 
     // list of files / patterns to exclude
