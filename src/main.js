@@ -1,6 +1,5 @@
-import { Artifact } from './core/artifact.js';
-import { Displayer } from './core/displayer.js';
-import { Slider } from './core/slider.js';
+import { modalBg } from './modal-bg/modal-bg.js';
+import { routeDetails } from './route-details/route-details.js';
 import { store } from './core/store.js';
 import { renderer } from './core/renderer.js';
 import { httpHandler } from './core/httpHandler.js';
@@ -20,97 +19,12 @@ const app = (() => {
     return new App();
 })();
 
-app.modal = (() => {
-    class Modal extends Displayer {
-        constructor() {
-            super(document.querySelector('.modal-bg'));
-            this.element && this.element.addEventListener('click', () => this.hide());
-        }
+modalBg.init([
+    () => routeDetails.hide()]);
 
-        init(executables) {
-            this.executables = [...executables];
-        }
-
-        show() {
-            this._show();
-        }
-
-        hide() {
-            this._hide();
-            this.executables.map(x => x());
-        }
-    }
-
-    return new Modal();
-})();
-
-app.startUploadBtn = (() => {
-    class StartUploadBtn extends Artifact {        
-        constructor() {
-            super(document.getElementById('startUploadBtn'));
-            this.element && this.element.addEventListener('click', () => this.executables.map(x => x()));
-        }
-
-        init(executables) {
-            this.executables = [...executables];
-        }
-    }
-
-    return new StartUploadBtn();
-})();
-
-app.routeDetailModal = (() => {
-    class RouteDetailModal extends Slider {
-        constructor() {
-            super(document.querySelector('.route-detail-container'));
-        }
-
-        show() {
-            this._show('70%');
-        }
-
-        hide() {
-            this._hide();
-        }
-    }
-
-    return new RouteDetailModal();
-})();
-
-app.routeDetailModal.selectedRouteElem = (() => {
-    class SelectedRouteElem extends Artifact {
-        constructor() {
-            super(document.querySelector('.selected-route-label'));
-        }
-    }
-
-    return new SelectedRouteElem();
-})();
-
-app.routeDetailModal.closeBtn = (() => {
-    class RouteModalCloseBtn extends Artifact {
-        constructor() {
-            super(document.getElementById('closeRouteDetailBtn'));
-            this.element && this.element.addEventListener('click', () => this.executables.map(x => x()));
-        }
-
-        init(executables) {
-            this.executables = [...executables];
-        }
-    }
-
-    return new RouteModalCloseBtn();
-})();
-
-app.startUploadBtn.init([
-    () => app.modal.show()]);
-
-app.modal.init([
-    () => app.routeDetailModal.hide()]);
-
-app.routeDetailModal.closeBtn.init([
-    () => app.modal.hide(),
-    () => app.routeDetailModal.hide()]);
+routeDetails.closeBtn.init([
+    () => modalBg.hide(),
+    () => routeDetails.hide()]);
 
 app.run(() => {
     // Example: http://ip_or_domainName:port/
@@ -139,9 +53,9 @@ app.run(() => {
                             .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
                             .then(() => {
                                 renderer.afterRender();
-                                app.routeDetailModal.selectedRouteElem.element.textContent = routes[0].fullName;
-                                app.routeDetailModal.show();
-                                app.modal.show();
+                                routeDetails.selectedRoute.element.textContent = routes[0].fullName;
+                                routeDetails.show();
+                                modalBg.show();
                         });
                 });
         });
