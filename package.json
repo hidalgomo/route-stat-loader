@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode=development",
+    "start": "webpack serve --open",
     "jsdocs": "jsdoc -c jsdoc.json",
     "test": "karma start",
     "build": "webpack --mode=production"
@@ -21,12 +21,15 @@
   },
   "homepage": "https://github.com/hidalgomo/route-stat-loader#readme",
   "devDependencies": {
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
     "jasmine-core": "^4.4.0",
     "jsdoc": "^3.6.11",
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
     "karma-jasmine": "^5.1.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
