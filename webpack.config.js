@@ -25,7 +25,7 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.(s[ac]|c)ss$/i, use: ['style-loader' , 'css-loader'] },
+            { test: /\.(s[ac]|c)ss$/i, use: ['style-loader', 'css-loader'] },
             { test: /\.(png|jpg|jpeg|gif|json)$/i, type: 'asset/resource' }
         ]
     },
