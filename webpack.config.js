@@ -10,7 +10,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name][chunkhash].js',
         clean: true,
-        assetModuleFilename: '[name][chuckhash][ext]'
+        assetModuleFilename: '[name][ext]'
     },
     devtool: 'source-map',
     devServer: {
