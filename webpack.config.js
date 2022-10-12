@@ -1,39 +1,38 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
     mode: 'development',
+    entry: {
+        bundle: path.resolve(__dirname, './src/index.js')
+    },
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name][chunkhash].js',
+        clean: true,
+        assetModuleFilename: '[name][chuckhash][ext]'
+    },
+    devtool: 'source-map',
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, 'dist')
+        },
+        port: 3000,
+        open: true,
+        hot: true,
+        compress: true,
+        historyApiFallback: true
+    },
+    module: {
+        rules: [
+            { test: /\.(s[ac]|c)ss$/i, use: ['style-loader' , 'css-loader'] },
+            { test: /\.(png|jpg|jpeg|gif|json)$/i, type: 'asset/resource' }
+        ]
+    },
     plugins: [
-        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: './src/app/index.html',
             scriptLoading: 'defer'
         })
-    ],
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'build'),
-        clean: true
-    },
-    devtool: 'inline-source-map',
-    devServer: {
-        static: path.join(__dirname, 'build/'),
-        // devMiddleware: {
-        //     publicPath: './'
-        // }
-    },
-    module: {
-        rules:[
-            // {
-            //     test: /\.json$/,
-            //     use: ['json-loader']
-            // },
-            {
-                test: /\.(s[ac]|c)ss$/i,
-                use: [ MiniCssExtractPlugin.loader, 'css-loader' ]
-            }
-        ]
-    }
+    ]
 };
