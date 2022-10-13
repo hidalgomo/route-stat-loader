@@ -1,5 +1,10 @@
 import { routeMapping } from "./mappings";
 
+
+////////////
+// No data needs UI implementation
+///////////////
+
 export function Route(route) {
     Object.assign(this, route);
     this.fullName = routeMapping[this.route_name];

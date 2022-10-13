@@ -44,18 +44,22 @@ section.toolbar-container div.brand h2 {
     background-size: contain;
 }
 
-section.toolbar-container div.tool-list div.tool {
-    cursor: pointer;
-    padding: .5rem 1.1rem;
-    border: solid 1px #fff;
-    border-radius: 4px;
-    font-size: 1rem;
+section.toolbar-container div.tool-list {
+    display: flex;
+    flex-flow: row wrap;
 }
 
-section.toolbar-container div.tool-list div.tool:hover {
-    background-color: #009797;
-    box-shadow: 0 0 2px #333;
+section.toolbar-container div.tool-list .tool {
+    display: block;
+    padding: .2rem .7rem;
+    border: solid 1px #eee;
+    border-radius: 4px;
+    color: #eee;
+    text-decoration: none;
+    font-weight: bold;
 }
+
+section.toolbar-container div.tool-list .tool:hover { box-shadow: 0 3px 7px #171717; }
 
 .display-none { display: none !important; }
 .primary-color { background-color: #0B6623 !important; color: #fff !important; }
