@@ -87,7 +87,6 @@ section.toolbar-container div.tool-list .tool:hover { box-shadow: 0 0 7px #17171
     -o-filter: blur(1px);
 }
 
-.upload-file-btn,
 .modal-bg { position: fixed; }
 
 .modal-bg { 
