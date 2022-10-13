@@ -59,7 +59,7 @@ section.toolbar-container div.tool-list .tool {
     font-weight: bold;
 }
 
-section.toolbar-container div.tool-list .tool:hover { box-shadow: 0 3px 7px #171717; }
+section.toolbar-container div.tool-list .tool:hover { box-shadow: 0 0 7px #171717; }
 
 .display-none { display: none !important; }
 .primary-color { background-color: #0B6623 !important; color: #fff !important; }
