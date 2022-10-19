@@ -1,17 +1,18 @@
 import { boroughMapping } from './mappings';
 import { factory } from './factory';
-
 class Store {
     #factory;
     #boroughs = [];
     #routes = [];
 
-    #extractUniqueBoroughNamesFromRoutes(routes) {
-        return [...new Set(routes.map(x => x.borough))];
+    #extractUniqueBoroughsFromRoutes(routes) {
+        return [...new Set(routes.map(x => x.borough))]
+            .map(boroughName => routes.find(route => route.borough === boroughName));
     }
 
-    #loadBoroughs(uniqueBoroughNames) {
-        return uniqueBoroughNames.map(boroughShortName => this.#factory.create('Borough', boroughShortName));
+    #loadBoroughs(uniqueBorough) {
+        // need to pass entire object not just shortname (borough)
+        return uniqueBorough.map(borough => this.#factory.create('Borough', borough));
     }
 
     #loadRoutes(routes) {
@@ -23,7 +24,7 @@ class Store {
     }
 
     load(data) {
-        this.#boroughs = this.#loadBoroughs(this.#extractUniqueBoroughNamesFromRoutes(data.routes));
+        this.#boroughs = this.#loadBoroughs(this.#extractUniqueBoroughsFromRoutes(data.routes));
         this.#routes = this.#loadRoutes(data.routes);
     }
 
@@ -51,7 +52,7 @@ class Store {
         }
 
         for (let borough of this.#boroughs) {
-            borough.routes = uniqueRoutes.filter(x => borough.shortName === x.borough);
+            borough.Route = uniqueRoutes.filter(x => borough.borough === x.borough);
         }
 
         return this.#boroughs;

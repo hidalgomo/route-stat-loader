@@ -1,5 +1,7 @@
-import { Route } from "./route";
-import { Borough } from "./borough";
+import { Route } from './route';
+import { Borough } from './borough';
+import { Schema } from './schema';
+import { NonArtifact } from './non-artifact';
 
 class Factory {
 
@@ -7,14 +9,18 @@ class Factory {
         Object.assign(this, classesObj);
     }
 
-    create(className, parameters) {
-        // There is minor pollution of the global scope regarding the below code.
-        // A namespace is needed to avoid polluting the global scope and possible code re-structuring.
-        return new this[className](parameters);
+    create = (className, parameters) => {
+        try {
+            return new (this[className])(parameters);
+        } catch {
+            return new NonArtifact();
+        }
     }
 }
 
 export const factory = new Factory({
     Route,
-    Borough
+    Borough,
+    Schema,
+    NonArtifact
 });;
