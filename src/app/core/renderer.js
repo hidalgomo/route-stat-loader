@@ -10,7 +10,7 @@ class Renderer {
         return this;
     }
 
-    async render(callback) {
+    async renderAsync(callback) {
         this.#rootElem.innerHTML = '';
 
         return await new Promise((resolved, rejected) => {

@@ -1,7 +1,6 @@
 import { modalBg } from './modal-bg/modal-bg';
 import { routeDetails } from './route-details/route-details';
 import { store } from './core/store';
-import { store2 } from './core/store2';
 import { renderer } from './core/renderer';
 import { httpHandler } from './core/httpHandler';
 
@@ -12,40 +11,33 @@ routeDetails.closeBtn.init([
     () => modalBg.hide(),
     () => routeDetails.hide()]);
 
-store2.init({ tableName: 'Route', primaryKey: 'route_name', relation: 'Borough' })
-    .init({ tableName: 'Borough', primaryKey: 'borough' });
-
-// Example: http://ip_or_domainName:port/
-const domain = './json_dataset.json';
-// DO NOT CHANGE!!!
-const apiUri = domain + httpHandler.getParameters();
-
-httpHandler.getAsync( apiUri ).then((responseData) => {
+httpHandler
+    .domain( './json_dataset.json' )
+    .getAsync( httpHandler.getParameters() )
+    .then( (responseData) => store.load(responseData) )
+    .then( () => store.sortByOrderNum() )
+    .then( () => store.getBoroughsWithUniqueRoutes() )
+    .then( (initialDataset) => {
     
-    store.load( responseData );
-    store.sortByOrderNum();
+        renderer
+            .init('.borough-container', initialDataset)
+            .renderAsync(obj => obj.template())
+            .then(() => {
+                
+                renderer
+                    .afterRender(elem => {
 
-    const initialDataset = store.getBoroughsWithUniqueRoutes();
+                        const routes = store.getRoutesByName(elem.id);
 
-    renderer
-        .init('.borough-container', initialDataset)
-        .render(obj => obj.template())
-        .then(() => {
-            
-            renderer
-                .afterRender(elem => {
-
-                    const routes = store.getRoutesByName(elem.id);
-
-                    renderer
-                        .init('.route-detail', routes)
-                        .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
-                        .then(() => {
-                            renderer.afterRender();
-                            routeDetails.selectedRoute.element.textContent = routes[0].fullName;
-                            routeDetails.show();
-                            modalBg.show();
-                    });
-            });
-    });
+                        renderer
+                            .init('.route-detail', routes)
+                            .renderAsync(obj => obj.template('equipment_id', 'pctcomp_specific'))
+                            .then(() => {
+                                renderer.afterRender();
+                                routeDetails.selectedRoute.element.textContent = routes[0].fullName;
+                                routeDetails.show();
+                                modalBg.show();
+                        });
+                });
+        });
 });
