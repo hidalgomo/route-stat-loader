@@ -39,7 +39,7 @@ section.toolbar-container {
 
 section.toolbar-container div.brand h2 { 
     margin: 0;
-    padding: 0 0 0 2rem;
+    padding: .3rem 0 .3rem 3rem;
     background: url(./assets/dsny_logo.png) no-repeat center left;
     background-size: contain;
 }
@@ -49,15 +49,31 @@ section.toolbar-container div.tool-list {
     flex-flow: row wrap;
 }
 
-section.toolbar-container div.tool-list .tool {
+section.toolbar-container div.tool-list a.tool {
     display: block;
-    padding: .2rem .7rem;
+    padding: .2rem .3rem;
     border: solid 1px #eee;
-    border-radius: 4px;
+    border-radius: 16px;
     color: #eee;
     text-decoration: none;
     font-weight: bold;
+    margin: 0 0.3rem;
+    height: 24px;
+    width: 30px;
 }
+span.icon {
+    display: block; 
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+span.home-icon { background-image: url(./assets/home_ico.png); }
+span.truck-icon { background-image: url(./assets/truck_ico.png); }
+span.direction-icon { background-image: url(./assets/direction_ico.png); }
+
 
 section.toolbar-container div.tool-list .tool:hover { box-shadow: 0 0 7px #171717; }
 
