@@ -9,11 +9,7 @@ export class Slider extends Artifact {
         }
     }
 
-    _show(width) {
-        this.element.style.width = width;
-    }
+    _show = (width) => this.element.style.width = width;
 
-    _hide() {
-        this.element.style.width = 0;
-    }
+    _hide = () => this.element.style.width = 0;
 }

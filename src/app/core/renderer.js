@@ -1,9 +1,7 @@
 class Renderer {
     #rootElem;
     #dataSet;
-
-    constructor() { }
-
+    
     init(parentIdentifier, dataSet) {
         this.#rootElem = document.querySelector(parentIdentifier);
         this.#dataSet = dataSet;
@@ -21,11 +19,9 @@ class Renderer {
         });
     }
 
-    // Violates the single responsibility principle
-    // This method is performing two things
-
-    // possible sulution to decouple further would be to seperate
-    // renderer from element modifier (modifier includes event adding)
+    // Violates the single responsibility principle as this method is performing two actions.
+    // Possible solution to decouple further would be to seperate renderer from element
+    // modifier (modifier includes event adding)
     afterRender(callback) {
         let innerProgressBar, percent;
 
