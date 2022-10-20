@@ -25,33 +25,27 @@ httpHandler.getAsync( apiUri ).then((responseData) => {
     store.load( responseData );
     store.sortByOrderNum();
 
-    // store2
-    // store2.loadAsync(responseData.routes).then(() => {
-    
-        // const initialDataset = store2.getUnique('Borough');
-        const initialDataset = store.getBoroughsWithUniqueRoutes();
+    const initialDataset = store.getBoroughsWithUniqueRoutes();
 
-        renderer
-            .init('.borough-container', initialDataset)
-            .render(obj => obj.template())
-            .then(() => {
-                
-                renderer
-                    .afterRender(elem => {
+    renderer
+        .init('.borough-container', initialDataset)
+        .render(obj => obj.template())
+        .then(() => {
+            
+            renderer
+                .afterRender(elem => {
 
-                        const routes = store.getRoutesByName(elem.id);
+                    const routes = store.getRoutesByName(elem.id);
 
-                        renderer
-                            .init('.route-detail', routes)
-                            .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
-                            .then(() => {
-                                renderer.afterRender();
-                                routeDetails.selectedRoute.element.textContent = routes[0].fullName;
-                                routeDetails.show();
-                                modalBg.show();
-                        });
-                });
-        });
-    // store2
-    // });
+                    renderer
+                        .init('.route-detail', routes)
+                        .render(obj => obj.template('equipment_id', 'pctcomp_specific'))
+                        .then(() => {
+                            renderer.afterRender();
+                            routeDetails.selectedRoute.element.textContent = routes[0].fullName;
+                            routeDetails.show();
+                            modalBg.show();
+                    });
+            });
+    });
 });
