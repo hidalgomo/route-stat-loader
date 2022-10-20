@@ -1,6 +1,7 @@
 import { boroughMapping } from "./mappings";
 
 export function Borough(obj) {
+
     Object.assign(this, obj);
     this.fullName = boroughMapping[this.borough] && boroughMapping[this.borough].name;
     this.Route = [];
