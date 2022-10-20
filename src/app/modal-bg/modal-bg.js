@@ -6,13 +6,9 @@ class ModalBg extends Displayer {
         this.element && this.element.addEventListener('click', () => this.hide());
     }
 
-    init(executables) {
-        this.executables = [...executables];
-    }
-
-    show() {
-        this._show();
-    }
+    init = (executables) => this.executables = [...executables];
+    
+    show = () => this._show();
 
     hide() {
         this._hide();

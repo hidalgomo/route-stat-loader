@@ -6,13 +6,8 @@ class RouteDetails extends Slider {
         super(document.querySelector('.route-detail-container'));
     }
 
-    show() {
-        this._show('70%');
-    }
-
-    hide() {
-        this._hide();
-    }
+    show = () => this._show('70%');
+    hide = () => this._hide();
 }
 
 class SelectedRoute extends Artifact {
@@ -27,9 +22,7 @@ class CloseBtn extends Artifact {
         this.element && this.element.addEventListener('click', () => this.executables.map(x => x()));
     }
 
-    init(executables) {
-        this.executables = [...executables];
-    }
+    init = (executables) => this.executables = [...executables];
 }
 
 const routeDetails = new RouteDetails();
