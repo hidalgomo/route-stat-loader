@@ -2,9 +2,11 @@ import { modalBg } from './modal-bg/modal-bg';
 import { routeDetails } from './route-details/route-details';
 import { store } from './core/store';
 import { renderer } from './core/renderer';
-import { httpHandler } from './core/httpHandler';
+import { httpHandler } from './core/http-handler';
+import { notificationContainer } from './notifaction-container/notifaction-container';
 
 modalBg.init([
+    () => modalBg.hide(),
     () => routeDetails.hide()]);
 
 routeDetails.closeBtn.init([
@@ -40,4 +42,9 @@ httpHandler
                         });
                 });
         });
+})
+.catch(error => {
+    modalBg.init([]);
+    modalBg._show();
+    notificationContainer.show();
 });

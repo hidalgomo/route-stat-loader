@@ -19,10 +19,10 @@ class SelectedRoute extends Artifact {
 class CloseBtn extends Artifact {
     constructor() {
         super(document.getElementById('closeRouteDetailBtn'));
-        this.element && this.element.addEventListener('click', () => this.executables.map(x => x()));
+        this.element && this.element.addEventListener('click', () => this.executables.forEach(x => x()));
     }
 
-    init = (executables) => this.executables = [...executables];
+    init = (executables) => this.executables = executables;
 }
 
 const routeDetails = new RouteDetails();

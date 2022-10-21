@@ -16,7 +16,12 @@ class HttpHandler {
     async getAsync(parameters) {
         const url = this.#domain + parameters;
         return await fetch(url)
-            .then(response => response.json());
+            .then(response => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error('Unable to load data');
+            });
     }
 }
 
