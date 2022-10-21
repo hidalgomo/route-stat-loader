@@ -39,7 +39,7 @@ section.toolbar-container {
 
 section.toolbar-container div.brand h2 { 
     margin: 0;
-    padding: .3rem 0 .3rem 3rem;
+    padding: .32rem 0 .32rem 3rem;
     background: url(./assets/dsny_logo.png) no-repeat center left;
     background-size: contain;
 }
@@ -52,14 +52,16 @@ section.toolbar-container div.tool-list {
 section.toolbar-container div.tool-list a.tool {
     display: block;
     padding: .2rem .3rem;
-    border: solid 1px #eee;
-    border-radius: 16px;
     color: #eee;
     text-decoration: none;
     font-weight: bold;
     margin: 0 0.3rem;
     height: 24px;
     width: 30px;
+    border-radius: 9px;
+    background: linear-gradient(145deg, #0a5c20, #0c6d25);
+    box-shadow:  4px 4px 8px #09571e,
+                 -4px -4px 8px #0d7528;
 }
 span.icon {
     display: block; 
@@ -75,7 +77,7 @@ span.truck-icon { background-image: url(./assets/truck_ico.png); }
 span.direction-icon { background-image: url(./assets/direction_ico.png); }
 
 
-section.toolbar-container div.tool-list .tool:hover { box-shadow: 0 0 7px #171717; }
+section.toolbar-container div.tool-list .tool:hover { border: solid 1px #008000; }
 
 .display-none { display: none !important; }
 .primary-color { background-color: #0B6623 !important; color: #fff !important; }
