@@ -5,6 +5,7 @@ import { httpHandler } from './core/http-handler';
 import { boroughRenderer } from './core/borough-renderer';
 import { routeRenderer } from './core/route-renderer';
 import { routeDetailsRenderer } from './core/route-details-renderer';
+import { dateDetails } from './core/date-details';
 
 modalBg.init([
     () => modalBg.hide(),
@@ -34,6 +35,7 @@ httpHandler
             .then(() => routeDetailsRenderer.setPercentageFill());
     }))
     .then( () => routeRenderer.setPercentageFill())
+    .then( () => dateDetails.element.innerHTML =  store.getDatetime())
     .catch(error => {
         // ERROR MESSAGE
         // NOTIFICATION

@@ -4,6 +4,7 @@ class Store {
     #factory;
     #boroughs = [];
     #routes = [];
+    #datesRange;
 
     #extractUniqueBoroughsFromRoutes(routes) {
         return [...new Set(routes.map(x => x.borough))]
@@ -11,7 +12,6 @@ class Store {
     }
 
     #loadBoroughs(uniqueBorough) {
-        // need to pass entire object not just shortname (borough)
         return uniqueBorough.map(borough => this.#factory.create('Borough', borough));
     }
 
@@ -26,6 +26,7 @@ class Store {
     load(data) {
         this.#boroughs = this.#loadBoroughs(this.#extractUniqueBoroughsFromRoutes(data.routes));
         this.#routes = this.#loadRoutes(data.routes);
+        this.#datesRange = `${ data.startStamp.date } ${ data.startStamp.time } - ${ data.endStamp.date } ${ data.endStamp.time }`;
     }
 
     sortByOrderNum() {
@@ -36,26 +37,6 @@ class Store {
 
             return boroughMapping[a.shortName].orderNum < boroughMapping[b.shortName].orderNum? -1 : 1;
         });
-    }
-
-    getBoroughsWithUniqueRoutes() {
-        const uniqueRoutes = [];
-        const uniqueRouteNames = new Set();
-
-        for(let route of this.#routes) {
-            if (uniqueRouteNames.has(route.route_name)) {
-                continue;
-            }
-
-            uniqueRoutes.push(route);
-            uniqueRouteNames.add(route.route_name);
-        }
-
-        for (let borough of this.#boroughs) {
-            borough.Route = uniqueRoutes.filter(x => borough.borough === x.borough);
-        }
-
-        return this.#boroughs;
     }
 
     getUniqueRoutes() {
@@ -76,6 +57,7 @@ class Store {
 
     getBoroughs = () => this.#boroughs;
     getRoutesByName = (routeName) => this.#routes.filter(x => x.route_name === routeName);
+    getDatetime = () => this.#datesRange;
 }
 
 export const store = new Store(factory);
