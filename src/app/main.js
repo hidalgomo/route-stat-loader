@@ -1,4 +1,3 @@
-console.time();
 import { modalBg } from './modal-bg/modal-bg';
 import { routeDetails } from './route-details/route-details';
 import { store } from './core/store';
@@ -39,5 +38,3 @@ httpHandler
         // ERROR MESSAGE
         // NOTIFICATION
     });
-
-console.timeEnd();
