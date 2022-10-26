@@ -1,11 +1,11 @@
-import { modalBg } from './modal-bg/modal-bg';
-import { routeDetails } from './route-details/route-details';
+import { modalBg } from './core/dom/modal-bg';
+import { routeDetails } from './core/dom/route-details';
 import { store } from './core/store';
 import { httpHandler } from './core/http-handler';
-import { boroughRenderer } from './core/borough-renderer';
-import { routeRenderer } from './core/route-renderer';
-import { routeDetailsRenderer } from './core/route-details-renderer';
-import { dateDetails } from './core/date-details';
+import { boroughRenderer } from './core/renderers/borough-renderer';
+import { routeRenderer } from './core/renderers/route-renderer';
+import { routeDetailsRenderer } from './core/renderers/route-details-renderer';
+import { dateDetails } from './core/dom/date-details';
 
 modalBg.init([
     () => modalBg.hide(),

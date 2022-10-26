@@ -1,4 +1,4 @@
-import { Displayer } from '../core/displayer';
+import { Displayer } from './displayer';
 
 class ModalBg extends Displayer {
     constructor() {

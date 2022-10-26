@@ -1,4 +1,4 @@
-import { boroughMapping } from './mappings';
+import { boroughMapping } from './models/mappings';
 import { factory } from './factory';
 class Store {
     #factory;

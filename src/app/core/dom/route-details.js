@@ -1,5 +1,5 @@
-import { Artifact } from '../core/artifact';
-import { Slider } from '../core/slider';
+import { Artifact } from './artifact';
+import { Slider } from './slider';
 
 class RouteDetails extends Slider {
     constructor() {

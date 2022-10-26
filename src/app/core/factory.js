@@ -1,8 +1,8 @@
-import { Borough } from './borough';
-import { Schema } from './schema';
-import { Message } from '../notification/message';
-import { NonArtifact } from './non-artifact';
-import { Route } from './route';
+import { Borough } from './models/borough';
+import { Schema } from './models/schema';
+import { Message } from './models/message';
+import { NonArtifact } from './models/non-artifact';
+import { Route } from './models/route';
 
 class Factory {
 
