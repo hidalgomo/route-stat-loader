@@ -6,6 +6,7 @@ import { boroughRenderer } from './core/renderers/borough-renderer';
 import { routeRenderer } from './core/renderers/route-renderer';
 import { routeDetailsRenderer } from './core/renderers/route-details-renderer';
 import { dateDetails } from './core/dom/date-details';
+import { routeMapLink } from './core/dom/route-map-link';
 
 modalBg.init([
     () => modalBg.hide(),
@@ -35,8 +36,12 @@ httpHandler
             .then(() => routeDetailsRenderer.setPercentageFill());
     }))
     .then( () => routeRenderer.setPercentageFill())
-    .then( () => dateDetails.element.textContent =  store.getDatetime())
+    .then( () => {
+        dateDetails.element.textContent =  store.getDatetime();
+        routeMapLink.element.href = store.getRouteMapLink();
+    })
     .catch(error => {
         // ERROR MESSAGE
         // NOTIFICATION
+        console.error(error);
     });

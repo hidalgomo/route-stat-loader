@@ -5,6 +5,7 @@ class Store {
     #boroughs = [];
     #routes = [];
     #datesRange;
+    #routeMapLink;
 
     #extractUniqueBoroughsFromRoutes(routes) {
         return [...new Set(routes.map(x => x.borough))]
@@ -27,6 +28,7 @@ class Store {
         this.#boroughs = this.#loadBoroughs(this.#extractUniqueBoroughsFromRoutes(data.routes));
         this.#routes = this.#loadRoutes(data.routes);
         this.#datesRange = `${ data.startStamp.date } ${ data.startStamp.time } - ${ data.endStamp.date } ${ data.endStamp.time }`;
+        this.#routeMapLink = `http://10.175.10.171:5000/map_by_route?hashed_timeframe=${ data.hashedTimeframe }&hashed_assignment=${ data.hashedAssignment }`;
     }
 
     sortByOrderNum() {
@@ -58,6 +60,7 @@ class Store {
     getBoroughs = () => this.#boroughs;
     getRoutesByName = (routeName) => this.#routes.filter(x => x.route_name === routeName);
     getDatetime = () => this.#datesRange;
+    getRouteMapLink = () => this.#routeMapLink;
 }
 
 export const store = new Store(factory);
