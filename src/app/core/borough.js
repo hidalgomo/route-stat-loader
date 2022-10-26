@@ -1,24 +1,27 @@
 import { boroughMapping } from "./mappings";
 
-export function Borough(obj) {
+export class Borough {
 
-    Object.assign(this, obj);
-    this.fullName = boroughMapping[this.borough] && boroughMapping[this.borough].name;
-    this.Route = [];
+    constructor(obj) { 
+        Object.assign(this, obj);
+        this.fullName = boroughMapping[this.borough] && boroughMapping[this.borough].name;
+        this.Route = [];
+    }
 
-    this.template = () => {
+    template(callback) {
+        const containerElement = document.createElement('div');
+        containerElement.classList.add('borough');
+        containerElement.id = this.borough;
+        containerElement.innerHTML = `
+            <div class="borough-label">
+                <div>${ this.fullName }</div>
+            </div>
+            <div class="route-container"></div>`;
 
-        let routeHtml = '';
-        for (let route of this.Route) {
-            routeHtml += route.template();
+        if (callback) {
+            containerElement.addEventListener('click', callback);
         }
 
-        return `
-            <div class="borough">
-                <div class="borough-label">
-                    <div>${ this.fullName }</div>
-                </div>
-                <div class="route-container">${ routeHtml }</div>
-            </div>`;
+        return containerElement;
     }
 }

@@ -12,9 +12,9 @@
                     <h2>Highway Status Dashboard</h2>
                 </div>
                 <div class="tool-list">
-                    <a href="#" class="tool" title="Truck Route">
+                    <!-- <a href="#" class="tool" title="Truck Route">
                         <span class="icon truck-icon"></span>
-                    </a>
+                    </a> -->
                     <a href="#" class="tool" title="Route">
                         <span class="icon direction-icon"></span>
                     </a>
@@ -23,7 +23,7 @@
                     </a>
                 </div>
             </section>
-            <section class="borough-container"></section>
+            <section class="borough-container" id="boroughContainer"></section>
         </article>
 
         <aside class="route-detail-container">
@@ -33,11 +33,24 @@
                 </div>
             </div>
             <div class="selected-route-label"></div>
-            <section class="route-detail">
-            </section>
+            <section class="route-detail" id="routeDetail"></section>
         </aside>
 
-        <div class="notification-container"></div>
+        <!-- javascript application will be generating the below html (message container) -->
+        <!-- <div class="notification-container">
+            <div class="message-list">
+
+                
+                <div class="message">
+                    <div class="message-actions">
+                        <button class="btn message-close-btn" title="Close Message">X</button>
+                    </div>
+                    <div class="message-body">Unable to load data from api</div>
+                </div>
+
+
+            </div>
+        </div> -->
         <div class="logo-bg"></div>
         <div class="modal-bg display-none"></div>
     </body>

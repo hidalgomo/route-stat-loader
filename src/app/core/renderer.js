@@ -1,40 +1,18 @@
-class Renderer {
-    #rootElem;
-    #dataSet;
-    
-    init(parentIdentifier, dataSet) {
-        this.#rootElem = document.querySelector(parentIdentifier);
-        this.#dataSet = dataSet;
-        return this;
-    }
+export class Renderer {
 
-    async renderAsync(callback) {
-        this.#rootElem.innerHTML = '';
-
-        return await new Promise((resolved, rejected) => {
-            for(let obj of this.#dataSet) {
-                this.#rootElem.innerHTML += callback(obj);
-            }
-            setTimeout(() => resolved(), 100);
-        });
-    }
-
-    // Violates the single responsibility principle as this method is performing two actions.
-    // Possible solution to decouple further would be to seperate renderer from element
-    // modifier (modifier includes event adding)
-    afterRender(callback) {
-        let innerProgressBar, percent;
-
-        for(let routeElem of this.#rootElem.getElementsByClassName('route')) {
-            if (callback) {
-                routeElem && routeElem.addEventListener('click', function() { callback(this); });
-            }
-
-            percent = routeElem.querySelector('.progress-percent').innerHTML;
-            innerProgressBar = routeElem.querySelector('.inner-progress-bar');
-            innerProgressBar.style.width = percent;
+    constructor() {
+        if (this.constructor === Renderer) {
+            throw new Error('Renderer class cannot be instantiated.');
         }
     }
-}
 
-export const renderer = new Renderer();
+    async renderAsync(getContainerCallback, dataSet, templateCallback) {
+        return await new Promise((resolve, reject) => {
+            for(let obj of dataSet) {
+                getContainerCallback(obj).appendChild( templateCallback( obj ) )
+            }
+
+            setTimeout(resolve, 100);
+        });
+    }
+}

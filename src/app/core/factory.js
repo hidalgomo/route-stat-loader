@@ -1,7 +1,8 @@
-import { Route } from './route';
 import { Borough } from './borough';
 import { Schema } from './schema';
+import { Message } from '../notification/message';
 import { NonArtifact } from './non-artifact';
+import { Route } from './route';
 
 class Factory {
 
@@ -22,5 +23,6 @@ export const factory = new Factory({
     Route,
     Borough,
     Schema,
-    NonArtifact
+    NonArtifact,
+    Message
 });;

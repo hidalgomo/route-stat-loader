@@ -3,11 +3,9 @@ import { routeMapping } from "./mappings";
 // TODO:
 // "No data" needs UI implementation
 
-export function Route(route) {
-    Object.assign(this, route);
-    this.fullName = routeMapping[this.route_name];
+export class Route {
 
-    var evalClass = (percent) => {
+    #evalClass(percent) {
         const calcPercent =  Math.abs(percent * 100);
 
         if (calcPercent < 50) {
@@ -23,14 +21,27 @@ export function Route(route) {
         }
     }
 
-    this.template = (labelPropName = 'fullName', percentPropName = 'pctcomp_combined') => {
-        return `
-            <div class="route" id="${ this.route_name }" title="${ this[labelPropName] }">
-                <div class="route-label">${ this[labelPropName] }</div>
-                <div class="outer-progress-bar">
-                    <div class="inner-progress-bar ${ evalClass(this[percentPropName]) }"></div>
-                    <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
-                </div>
+    constructor(obj) {
+        Object.assign(this, obj);
+        this.fullName = routeMapping[this.route_name];
+    }
+
+    template(labelPropName = 'fullName', percentPropName = 'pctcomp_combined', callback) {
+        const routeContainer = document.createElement('div');
+        routeContainer.classList.add('route');
+        routeContainer.id = this.route_name;
+        routeContainer.title = this[labelPropName];
+
+        routeContainer.innerHTML = `
+            <div class="route-label">${ this[labelPropName] }</div>
+            <div class="outer-progress-bar">
+                <div class="inner-progress-bar ${ this.#evalClass(this[percentPropName]) }"></div>
+                <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
             </div>`;
+        
+        if (callback)
+            routeContainer.addEventListener('click', function() { callback(this) });
+
+        return routeContainer;
     }
 }

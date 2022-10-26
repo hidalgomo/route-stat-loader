@@ -58,9 +58,24 @@ class Store {
         return this.#boroughs;
     }
 
-    getRoutesByName(routeName) {
-        return this.#routes.filter(x => x.route_name === routeName);
+    getUniqueRoutes() {
+        const uniqueRoutes = [];
+        const uniqueRouteNames = new Set();
+
+        for(let route of this.#routes) {
+            if (uniqueRouteNames.has(route.route_name)) {
+                continue;
+            }
+
+            uniqueRoutes.push(route);
+            uniqueRouteNames.add(route.route_name);
+        }
+
+        return uniqueRoutes;
     }
+
+    getBoroughs = () => this.#boroughs;
+    getRoutesByName = (routeName) => this.#routes.filter(x => x.route_name === routeName);
 }
 
 export const store = new Store(factory);
