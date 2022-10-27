@@ -8,10 +8,7 @@ class HttpHandler {
         return this;
     }
 
-    getParameters() {
-        let parameters = window.location.hash.substring(1);
-        return `?${ parameters }`;
-    }
+    getParameters = () => window.location.hash.substring(1);
 
     async getAsync(parameters) {
         const url = this.#domain + parameters;
