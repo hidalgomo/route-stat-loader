@@ -12,13 +12,8 @@ class Store {
             .map(boroughName => routes.find(route => route.borough === boroughName));
     }
 
-    #loadBoroughs(uniqueBorough) {
-        return uniqueBorough.map(borough => this.#factory.create('Borough', borough));
-    }
-
-    #loadRoutes(routes) {
-            return routes.map(route => this.#factory.create('Route', route));
-    }
+    #loadBoroughs = (uniqueBorough) => uniqueBorough.map(borough => this.#factory.create('Borough', borough))
+    #loadRoutes = (routes) => routes.map(route => this.#factory.create('Route', route));
 
     constructor(factory) {
         this.#factory = factory;

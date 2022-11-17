@@ -39,8 +39,7 @@ export class Route {
                 <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>
             </div>`;
         
-        if (callback)
-            routeContainer.addEventListener('click', function() { callback(this) });
+        if (callback) routeContainer.addEventListener('click', function() { callback(this) });
 
         return routeContainer;
     }

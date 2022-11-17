@@ -18,9 +18,7 @@ export class Borough {
             </div>
             <div class="route-container"></div>`;
 
-        if (callback) {
-            containerElement.addEventListener('click', callback);
-        }
+        if (callback) containerElement.addEventListener('click', callback);
 
         return containerElement;
     }

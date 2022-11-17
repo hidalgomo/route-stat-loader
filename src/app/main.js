@@ -9,39 +9,37 @@ import { dateDetails } from './core/dom/date-details';
 import { routeMapLink } from './core/dom/route-map-link';
 
 modalBg.init([
-    () => modalBg.hide(),
-    () => routeDetails.hide()]);
+    _ => modalBg.hide(),
+    _ => routeDetails.hide()]);
 
 routeDetails.closeBtn.init([
-    () => modalBg.hide(),
-    () => routeDetails.hide()]);
+    _ => modalBg.hide(),
+    _ => routeDetails.hide()]);
 
 // Fetch Data
 httpHandler
     .domain( './json_dataset.json' )
     .getAsync( httpHandler.getParameters() )
     .then( (responseData) => store.load(responseData) )
-    .then( () => store.sortByOrderNum() )
-    .then( () => store.getBoroughs() )
-    .then( (boroughs) => boroughRenderer.renderBoroughsAsync(boroughs) )
-    .then( () => store.getUniqueRoutes())
-    .then( (routes) => routeRenderer.renderRouteAsync(routes, (obj) => {
+    .then( _ => store.sortByOrderNum() )
+    .then( _ => boroughRenderer.renderBoroughsAsync(store.getBoroughs() ) )
+    .then( _ => routeRenderer.renderRouteAsync(store.getUniqueRoutes(), (obj) => {
         
-        routeDetailsRenderer.renderRouteAsync(store.getRoutesByName(obj.id))
-            .then(() => {
-                routeDetails.selectedRoute.element.textContent = routes[0].fullName;
+        const selectedRoutes = store.getRoutesByName(obj.id);
+        routeDetailsRenderer.renderRouteAsync(selectedRoutes)
+            .then( _ => {
+                routeDetails.selectedRoute.element.textContent = selectedRoutes[0].fullName;
                 routeDetails.show();
                 modalBg.show();
             })
-            .then(() => routeDetailsRenderer.setPercentageFill());
+            .then( _ => routeDetailsRenderer.setPercentageFill());
     }))
-    .then( () => routeRenderer.setPercentageFill())
-    .then( () => {
+    .then( _ => routeRenderer.setPercentageFill())
+    .then( _ => {
         dateDetails.element.textContent =  store.getDatetime();
         routeMapLink.element.href = store.getRouteMapLink();
     })
     .catch(error => {
-        // ERROR MESSAGE
         // NOTIFICATION
         console.error(error);
     });

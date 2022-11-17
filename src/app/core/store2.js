@@ -71,8 +71,6 @@ class Store2 {
 
             resolve();
         });
-        
-        // return this;
     }
 
     getUnique = (tableName) => Object.values(this.#tables[tableName]);
