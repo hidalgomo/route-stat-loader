@@ -37,7 +37,7 @@ httpHandler
     .then( _ => routeRenderer.setPercentageFill())
     .then( _ => {
         dateDetails.element.textContent =  store.getDatetime();
-        routeMapLink.element.href = store.getRouteMapLink();
+        // routeMapLink.element.href = store.getRouteMapLink();
     })
     .catch(error => {
         // NOTIFICATION
