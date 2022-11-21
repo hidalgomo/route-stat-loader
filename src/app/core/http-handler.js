@@ -1,8 +1,6 @@
 class HttpHandler {
     #domain;
 
-    constructor() { }
-
     domain(domain) {
         this.#domain = domain;
         return this;
@@ -10,9 +8,9 @@ class HttpHandler {
 
     getParameters = () => window.location.hash.substring(1);
 
-    async getAsync(parameters) {
+    get(parameters) {
         const url = this.#domain + parameters;
-        return await fetch(url)
+        return fetch(url)
             .then(response => {
                 if (response.ok)
                     return response.json();

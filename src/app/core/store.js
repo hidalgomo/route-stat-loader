@@ -31,7 +31,6 @@ class Store {
         this.#routes = this.#loadRoutes(data.routes);
         this.#dateTimeStamp.start = `${ data.startStamp.date } ${ data.startStamp.time }`;
         this.#dateTimeStamp.end = `${ data.endStamp.date } ${ data.endStamp.time }`;
-        this.#routeMapLink = `http://10.175.10.171:5000/map_by_route?hashed_timeframe=${ data.hashedTimeframe }&hashed_assignment=${ data.hashedAssignment }`;
     }
 
     sortByOrderNum() {

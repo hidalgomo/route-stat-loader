@@ -29,8 +29,8 @@ export class RouteRenderer extends Renderer {
         }
     }
             
-    renderRouteAsync = async (routes, eventCallback) =>
-        await this.renderAsync(this.getContainer, routes, route => route.template(undefined, undefined, eventCallback));
+    renderRoute = (routes, eventCallback) =>
+        this.render(this.getContainer, routes, route => route.template(undefined, undefined, eventCallback));
 }
 
 export const routeRenderer = new RouteRenderer();

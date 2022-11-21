@@ -18,14 +18,14 @@ routeDetails.closeBtn.init([
 // Fetch Data
 httpHandler
     .domain( './json_dataset.json' )
-    .getAsync( httpHandler.getParameters() )
-    .then( (responseData) => store.load(responseData) )
+    .get( httpHandler.getParameters() )
+    .then( responseData => store.load(responseData) )
     .then( _ => store.sortByOrderNum() )
-    .then( _ => boroughRenderer.renderBoroughsAsync(store.getBoroughs() ) )
-    .then( _ => routeRenderer.renderRouteAsync(store.getUniqueRoutes(), (obj) => {
+    .then( _ => boroughRenderer.renderBoroughs(store.getBoroughs() ) )
+    .then( _ => routeRenderer.renderRoute(store.getUniqueRoutes(), (obj) => {
         
         const selectedRoutes = store.getRoutesByName(obj.id);
-        routeDetailsRenderer.renderRouteAsync(selectedRoutes)
+        routeDetailsRenderer.renderRoute(selectedRoutes)
             .then( _ => {
                 routeDetails.selectedRoute.element.textContent = selectedRoutes[0].fullName;
                 routeDetails.show();
