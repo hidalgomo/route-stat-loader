@@ -44,22 +44,6 @@ class Store {
     }
 
     getUniqueRoutes() {
-        const uniqueRoutes = [];
-        const uniqueRouteNames = new Set();
-
-        for(let route of this.#routes) {
-            if (uniqueRouteNames.has(route.route_name)) {
-                continue;
-            }
-
-            uniqueRoutes.push(route);
-            uniqueRouteNames.add(route.route_name);
-        }
-
-        return uniqueRoutes;
-    }
-
-    getUniqueRoutes2() {
         const uniqueRoutes = {};
         
         for(let route of this.#routes) {
