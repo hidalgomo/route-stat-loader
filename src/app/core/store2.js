@@ -14,8 +14,8 @@ class Store2 {
         this.#tables[schemaObj.tableName] = schemaObj.table;
     }
 
-    async #loadIntoTablesAsync(schemas, data) {
-        return await new Promise((resolve, reject) => {
+    #loadIntoTablesAsync(schemas, data) {
+        return new Promise((resolve, reject) => {
             for(let schema of schemas) {
                 for(let item of data) {
                     const obj = this.#factory.create(schema.tableName, item);

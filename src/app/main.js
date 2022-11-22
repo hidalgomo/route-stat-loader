@@ -22,7 +22,7 @@ httpHandler
     .then( responseData => store.load(responseData) )
     .then( _ => store.sortByOrderNum() )
     .then( _ => boroughRenderer.renderBoroughs(store.getBoroughs() ) )
-    .then( _ => routeRenderer.renderRoute(store.getUniqueRoutes(), (obj) => {
+    .then( _ => routeRenderer.renderRoute(store.getUniqueRoutes2(), (obj) => {
         
         const selectedRoutes = store.getRoutesByName(obj.id);
         routeDetailsRenderer.renderRoute(selectedRoutes)

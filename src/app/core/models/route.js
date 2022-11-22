@@ -35,10 +35,7 @@ export class Route {
 
         routeContainer.innerHTML = `
             <div class="route-label">${ this[labelPropName] }</div>    
-            <a href="http://10.155.228.80:4200/ruto-pub/percent-complete/${ this.mongo_id }?
-                startTime=${ this.dateTimeStamp.start }&
-                endTime=${ this.dateTimeStamp.end }&
-                equipment=${ this.equipment_id }" title="Route Map">Route Map</a>
+            <a href="http://10.155.228.80:4200/ruto-pub/percent-complete/${ this.mongo_id }?startTime=${ this.dateTimeStamp.start }&endTime=${ this.dateTimeStamp.end }&equipment=${ this.equipments.join(',') }" title="Route Map">Route Map</a>
             <div class="outer-progress-bar">
                 <div class="inner-progress-bar ${ this.#evalClass(this[percentPropName]) }"></div>
                 <div class="progress-percent">${ (this[percentPropName] * 100).toFixed(1) }%</div>

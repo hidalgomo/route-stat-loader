@@ -59,6 +59,23 @@ class Store {
         return uniqueRoutes;
     }
 
+    getUniqueRoutes2() {
+        const uniqueRoutes = {};
+        
+        for(let route of this.#routes) {
+
+            if (uniqueRoutes[route.route_name]) {
+                uniqueRoutes[route.route_name].equipments.push(route.equipment_id);
+                continue;
+            }
+            
+            route.equipments.push(route.equipment_id);
+            uniqueRoutes[route.route_name] = route;
+        }
+        
+        return Object.values(uniqueRoutes);
+    }
+
     getBoroughs = () => this.#boroughs;
     getRoutesByName = (routeName) => this.#routes.filter(x => x.route_name === routeName);
     getDatetime = () => `${ this.#dateTimeStamp.start } - ${ this.#dateTimeStamp.end }`;
