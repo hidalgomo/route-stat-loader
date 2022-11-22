@@ -71,9 +71,6 @@ span.icon {
 }
 
 span.home-icon { background-image: url(./assets/home_ico.png); }
-span.truck-icon { background-image: url(./assets/truck_ico.png); }
-span.direction-icon { background-image: url(./assets/direction_ico.png); }
-
 
 section.toolbar-container div.tool-list .tool:hover { border: solid 1px #008000; }
 
