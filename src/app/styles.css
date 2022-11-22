@@ -79,11 +79,11 @@ section.toolbar-container div.tool-list .tool:hover { border: solid 1px #008000;
 
 .display-none { display: none !important; }
 .primary-color { background-color: #0B6623 !important; color: #fff !important; }
-.red-bg { background-color: #ff0000 !important; }
-.yellow-bg { background-color: #FFFF00 !important; }
-.light-green-bg { background-color: #adff2f !important; }
-.mid-green-bg { background-color: #00ff00 !important; }
-.dark-green-bg { background-color: #32cd32 !important; }
+.red-bg { background-color: #ff0000; }
+.yellow-bg { background-color: #FFFF00; }
+.light-green-bg { background-color: #adff2f; }
+.mid-green-bg { background-color: #00ff00; }
+.dark-green-bg { background-color: #32cd32; }
 
 
 .logo-bg {
@@ -140,6 +140,14 @@ div.route {
     min-height: 3rem;
 }
 
+div.route .link { 
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 0;
+    color: rgb(86, 129, 209);
+    font-weight: bold;
+}
+
 .borough-container .borough div.route {
     width: 46%;
     margin-right: 1rem !important;
@@ -147,8 +155,11 @@ div.route {
     margin: 2.5rem 0;
 }
 
+.borough-container .borough div.route .truck-map { display: none; }
+
 .route-detail-container .route-detail div.route { width: 100%; margin: 1.5rem 0; }
 .route-detail-container .route-detail div.route div.route-label::before { content: "Equipment: "; }
+.route-detail-container .route-detail div.route .route-map { display: none; }
 
 div.route div.route-label {
     font-size: 1.2rem;
@@ -216,6 +227,8 @@ section.route-detail {
     display: flex;
     flex-flow: row wrap;
 }
+
+section.route-detail .inner-progress-bar { background-color: rgb(222, 222, 222) !important; }
 
 /* NOTIFICATION STYLES */
 
