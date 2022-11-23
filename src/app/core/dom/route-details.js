@@ -5,9 +5,6 @@ class RouteDetails extends Slider {
     constructor() {
         super(document.querySelector('.route-detail-container'));
     }
-
-    show = () => this._show('70%');
-    hide = () => this._hide();
 }
 
 class SelectedRoute extends Artifact {

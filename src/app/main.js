@@ -28,7 +28,7 @@ httpHandler
         routeDetailsRenderer.renderRoute(selectedRoutes)
             .then( _ => {
                 routeDetails.selectedRoute.element.textContent = selectedRoutes[0].fullName;
-                routeDetails.show();
+                routeDetails.show('70%');
                 modalBg.show();
             })
             .then( _ => routeDetailsRenderer.setPercentageFill());

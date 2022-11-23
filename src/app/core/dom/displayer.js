@@ -17,10 +17,10 @@ import { Artifact } from "./artifact";
     /**
      * Thi method performs a class removal of the specified element. The method removes
      * a class name that holds styles such as display none in order to hide the element. */
-    _show = () => this.element.classList.remove('display-none');
+    show = () => this.element.classList.remove('display-none');
 
     /**
      * This method performs a class addition of the specified element. The method adds
      * a class name that holds styles such as display none in order to hide the element. */
-    _hide = () => this.element.classList.add('display-none');
+    hide = () => this.element.classList.add('display-none');
 }
