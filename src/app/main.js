@@ -19,7 +19,7 @@ routeDetails.closeBtn.init([
 
 // Fetch Data
 httpHandler
-    .domain( './json_dataset.json' )
+    .domain( './json_dtaset.json' )
     .get( httpHandler.getParameters() )
     .then( responseData => store.load(responseData) )
     .then( _ => store.sortByOrderNum() )
@@ -40,5 +40,6 @@ httpHandler
     .catch(error => {
         // NOTIFICATION
         notification.show();
-        notification.messageList.appendChild(Message(error.message));
+        notification.add(Message(error.message));
+        // notification.add(Message(error.message));
     });
