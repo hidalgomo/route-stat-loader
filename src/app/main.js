@@ -19,7 +19,7 @@ routeDetails.closeBtn.init([
 
 // Fetch Data
 httpHandler
-    .domain( './json_daaset.json' )
+    .domain( './json_dataset.json' )
     .get( httpHandler.getParameters() )
     .then( responseData => store.load(responseData) )
     .then( _ => store.sortByOrderNum() )
