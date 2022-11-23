@@ -7,6 +7,7 @@ import { routeRenderer } from './core/renderers/route-renderer';
 import { routeDetailsRenderer } from './core/renderers/route-details-renderer';
 import { dateDetails } from './core/dom/date-details';
 import { notification } from './core/dom/notification';
+import { Message } from './core/models/message';
 
 modalBg.init([
     _ => modalBg.hide(),
@@ -28,7 +29,7 @@ httpHandler
         const selectedRoutes = store.getRoutesByName(obj.id);
         routeDetailsRenderer.renderRoute(selectedRoutes)
             .then( _ => {
-                routeDetails.selectedRoute.element.textContent = selectedRoutes[0].fullName;
+                routeDetails.selectedRoute.textContent = selectedRoutes[0].fullName;
                 routeDetails.show('70%');
                 modalBg.show();
             })
@@ -39,5 +40,5 @@ httpHandler
     .catch(error => {
         // NOTIFICATION
         notification.show();
-        // notification.messageList.add(error)
+        notification.messageList.appendChild(Message(error.message));
     });

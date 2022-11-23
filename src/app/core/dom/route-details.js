@@ -7,12 +7,6 @@ class RouteDetails extends Slider {
     }
 }
 
-class SelectedRoute extends Artifact {
-    constructor() {
-        super(document.querySelector('.selected-route-label'));
-    }
-}
-
 class CloseBtn extends Artifact {
     constructor() {
         super(document.getElementById('closeRouteDetailBtn'));
@@ -22,8 +16,7 @@ class CloseBtn extends Artifact {
     init = (executables) => this.executables = executables;
 }
 
-const routeDetails = new RouteDetails();
-routeDetails.selectedRoute = new SelectedRoute();
-routeDetails.closeBtn = new CloseBtn();
-
-export { routeDetails };
+const routeDetailsObj = new RouteDetails();
+routeDetailsObj.selectedRoute = routeDetailsObj.element.querySelector('.selected-route-label');
+routeDetailsObj.closeBtn = new CloseBtn();
+export const routeDetails = routeDetailsObj;

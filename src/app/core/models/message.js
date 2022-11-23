@@ -1,11 +1,17 @@
 export function Message(message) {
-    this.template = () => `
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('message');
+
+    messageContainer.innerHTML = `
         <div class="message">
             <div class="message-actions">
                 <button class="btn message-close-btn" title="Close Message">X</button>
             </div>
             <div class="message-body">${ message }</div>
         </div>`;
-}
 
-// Message.template.prototype.addEvent = (callback) => console.log(  );
+    messageContainer.querySelector('.message-close-btn')
+        .addEventListener('click', _ => messageContainer.remove());
+
+    return messageContainer;
+}
