@@ -1,8 +1,10 @@
 import { Displayer} from './displayer';
 class Notification extends Displayer {
     constructor() {
-        super(document.getElementById('notification-container'));
+        super(document.querySelector('.notification-container'));
     }
 }
 
-export const notification = new Notification();
+const notificationObj = new Notification();
+notificationObj.messageList = notificationObj.element.querySelector('.message-list');
+export const notification = notificationObj;

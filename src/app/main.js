@@ -6,6 +6,7 @@ import { boroughRenderer } from './core/renderers/borough-renderer';
 import { routeRenderer } from './core/renderers/route-renderer';
 import { routeDetailsRenderer } from './core/renderers/route-details-renderer';
 import { dateDetails } from './core/dom/date-details';
+import { notification } from './core/dom/notification';
 
 modalBg.init([
     _ => modalBg.hide(),
@@ -17,7 +18,7 @@ routeDetails.closeBtn.init([
 
 // Fetch Data
 httpHandler
-    .domain( './json_dataset.json' )
+    .domain( './json_daaset.json' )
     .get( httpHandler.getParameters() )
     .then( responseData => store.load(responseData) )
     .then( _ => store.sortByOrderNum() )
@@ -37,5 +38,6 @@ httpHandler
     .then( _ => dateDetails.element.textContent =  store.getDatetime())
     .catch(error => {
         // NOTIFICATION
-        console.error(error);
+        notification.show();
+        // notification.messageList.add(error)
     });
