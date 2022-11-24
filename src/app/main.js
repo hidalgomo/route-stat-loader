@@ -18,7 +18,7 @@ routeDetails.closeBtn.init([
 
 // Fetch Data
 httpHandler
-    .domain( './json_dtaset.json' )
+    .domain( './json_dataset.json' )
     .get( httpHandler.getParameters() )
     .then( responseData => store.load(responseData) )
     .then( _ => store.sortByOrderNum() )
@@ -36,7 +36,4 @@ httpHandler
     }))
     .then( _ => routeRenderer.setPercentageFill())
     .then( _ => dateDetails.element.textContent =  store.getDatetime())
-    .catch(error => {
-        notification.show();
-        notification.add(error.message);
-    });
+    .catch(error => notification.add(error.message));

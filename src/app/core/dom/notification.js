@@ -29,7 +29,10 @@ class Notification extends Displayer {
         this.messageListNode = this.element.querySelector('.message-list');
     }
 
-    add = message => this.messageListNode.appendChild(this.#createMessage(message));
+    add(message) {
+        this.show();
+        this.messageListNode.appendChild(this.#createMessage(message));
+    }
 }
 
 export const notification = new Notification();
