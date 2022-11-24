@@ -7,7 +7,6 @@ import { routeRenderer } from './core/renderers/route-renderer';
 import { routeDetailsRenderer } from './core/renderers/route-details-renderer';
 import { dateDetails } from './core/dom/date-details';
 import { notification } from './core/dom/notification';
-import { Message } from './core/models/message';
 
 modalBg.init([
     _ => modalBg.hide(),
@@ -38,8 +37,6 @@ httpHandler
     .then( _ => routeRenderer.setPercentageFill())
     .then( _ => dateDetails.element.textContent =  store.getDatetime())
     .catch(error => {
-        // NOTIFICATION
         notification.show();
-        notification.add(Message(error.message));
-        // notification.add(Message(error.message));
+        notification.add(error.message);
     });
