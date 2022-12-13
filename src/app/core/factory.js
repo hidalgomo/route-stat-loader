@@ -1,6 +1,5 @@
 import { Borough } from './models/borough';
 import { Schema } from './models/schema';
-import { Message } from './models/message';
 import { NonArtifact } from './models/non-artifact';
 import { Route } from './models/route';
 
@@ -24,5 +23,4 @@ export const factory = new Factory({
     Borough,
     Schema,
     NonArtifact,
-    Message
 });;

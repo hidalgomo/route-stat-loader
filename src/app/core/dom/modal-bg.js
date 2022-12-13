@@ -7,9 +7,6 @@ class ModalBg extends Displayer {
     }
 
     init = (executables) => this.executables = executables;
-    
-    show = () => this._show();
-    hide = () => this._hide();
 }
 
 export const modalBg = new ModalBg();

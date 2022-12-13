@@ -6,6 +6,7 @@ import { boroughRenderer } from './core/renderers/borough-renderer';
 import { routeRenderer } from './core/renderers/route-renderer';
 import { routeDetailsRenderer } from './core/renderers/route-details-renderer';
 import { dateDetails } from './core/dom/date-details';
+import { notification } from './core/dom/notification';
 
 modalBg.init([
     _ => modalBg.hide(),
@@ -27,15 +28,12 @@ httpHandler
         const selectedRoutes = store.getRoutesByName(obj.id);
         routeDetailsRenderer.renderRoute(selectedRoutes)
             .then( _ => {
-                routeDetails.selectedRoute.element.textContent = selectedRoutes[0].fullName;
-                routeDetails.show();
+                routeDetails.selectedRoute.textContent = selectedRoutes[0].fullName;
+                routeDetails.show('70%');
                 modalBg.show();
             })
             .then( _ => routeDetailsRenderer.setPercentageFill());
     }))
     .then( _ => routeRenderer.setPercentageFill())
     .then( _ => dateDetails.element.textContent =  store.getDatetime())
-    .catch(error => {
-        // NOTIFICATION
-        console.error(error);
-    });
+    .catch(error => notification.add(error.message));

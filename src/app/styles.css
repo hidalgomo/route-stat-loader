@@ -158,6 +158,7 @@ div.route .link {
 .route-detail-container .route-detail div.route { width: 100%; margin: 1.5rem 0; }
 .route-detail-container .route-detail div.route div.route-label::before { content: "Equipment: "; }
 .route-detail-container .route-detail div.route .route-map { display: none; }
+.route-detail-container .route-detail div.route .progress-percent { display: none; }
 
 div.route div.route-label {
     font-size: 1.2rem;
