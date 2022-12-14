@@ -4,7 +4,7 @@ class Store {
     #factory;
     #boroughs = [];
     #routes = [];
-    #routeMapLink;
+    #rawData;
 
     #dateTimeStamp = {
         start: null,
@@ -31,6 +31,7 @@ class Store {
         this.#routes = this.#loadRoutes(data.routes);
         this.#dateTimeStamp.start = `${ data.startStamp.date } ${ data.startStamp.time }`;
         this.#dateTimeStamp.end = `${ data.endStamp.date } ${ data.endStamp.time }`;
+        this.#rawData = data;
     }
 
     sortByOrderNum() {
@@ -63,7 +64,7 @@ class Store {
     getBoroughs = () => this.#boroughs;
     getRoutesByName = (routeName) => this.#routes.filter(x => x.route_name === routeName);
     getDatetime = () => `${ this.#dateTimeStamp.start } - ${ this.#dateTimeStamp.end }`;
-    getRouteMapLink = () => this.#routeMapLink;
+    getLastPingDate = () => `${ this.#rawData.last_ping.date } ${ this.#rawData.last_ping.time }`;
 }
 
 export const store = new Store(factory);

@@ -35,5 +35,5 @@ httpHandler
             .then( _ => routeDetailsRenderer.setPercentageFill());
     }))
     .then( _ => routeRenderer.setPercentageFill())
-    .then( _ => dateDetails.element.textContent =  store.getDatetime())
+    .then( _ => dateDetails.element.textContent =  store.getLastPingDate() )
     .catch(error => notification.add(error.message));
