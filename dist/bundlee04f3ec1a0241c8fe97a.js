@@ -414,8 +414,7 @@
                     this.#n = e
                 }
                 load(e) {
-                    //this.#t = this.#s(this.#a(e.routes)), this.#o = this.#A(e.routes), this.#i.start = `${e.startStamp.date} ${e.startStamp.time}`, this.#i.end = `${e.endStamp.date} ${e.endStamp.time}`
-					this.#t = this.#s(this.#a(e.routes)), this.#o = this.#A(e.routes), this.#i.start = `${e.last_ping.date} ${e.last_ping.time}`
+                    this.#t = this.#s(this.#a(e.routes)), this.#o = this.#A(e.routes), this.#i.start = `${e.startStamp.date} ${e.startStamp.time}`, this.#i.end = `${e.endStamp.date} ${e.endStamp.time}`
 
                 }
                 sortByOrderNum() {
@@ -428,8 +427,7 @@
                 }
                 getBoroughs = () => this.#t;
                 getRoutesByName = e => this.#o.filter((n => n.route_name === e));
-                //getDatetime = () => `${this.#i.start} - ${this.#i.end}`;
-				getDatetime = () => `${this.#i.start}`;
+                getDatetime = () => `${this.#i.start} - ${this.#i.end}`;
 
                 getRouteMapLink = () => this.#r
             }(I),
