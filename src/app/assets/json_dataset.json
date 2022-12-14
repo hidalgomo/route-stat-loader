@@ -5,6 +5,10 @@
   }, 
   "hashedAssignment": "dec3d836e9ff0cd3193602193b541185", 
   "hashedTimeframe": "ef051d9f47100280bd2a8dc0a7dcca2e", 
+  "last_ping": {
+    "date": "2022-01-07", 
+    "time": "16:59:59"
+  }, 
   "routes": [
     {
       "borough": "BQ", 
